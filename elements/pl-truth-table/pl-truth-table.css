@@ -38,12 +38,16 @@
 }
 
 .truth-table>tbody>tr:nth-child(odd)>td {
-   background-color: white !important;
+   background-color: white;
  }
 
  .truth-table>tbody>tr:nth-child(even)>td {
-   background-color: #F3F3F3 !important;
+   background-color: #F3F3F3;
  }
+
+.input-column + .output-column {
+    border-left: 3px solid #d1d5db;
+}
 
 .info-button {
   padding: 0;

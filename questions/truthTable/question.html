@@ -49,7 +49,7 @@
   <div class="card-header">Part 3</div>
   <div class="card-body">
     <pl-question-panel>
-    <p>This table has <code>show-partial-score</code> set to <code>false</code>, so it provides no cell-level feedback and has its <code>alphabet</code> set to <code>TFX</code> to also allow the value <code>X</code> for outputs that are based on unknown inputs.</p>
+    <p>This table has no <code>prefill</code> set, and <code>show-partial-score</code> is <code>false</code>, so it provides no cell-level feedback. It also has its <code>alphabet</code> set to <code>TFX</code> to allow the value <code>X</code> to be used for unknown outputs (that are based on unknown inputs, such as C).</p>
     </pl-question-panel>
     <pl-truth-table
       answers-name="q3"
@@ -58,7 +58,6 @@
       output-values="[F, F, F, X], [X, T, T, T]"
       alphabet="TFX"
       show-partial-score="false"
-      prefill="F"
     >
   </div>
 </div>
@@ -67,16 +66,37 @@
   <div class="card-header">Part 4</div>
   <div class="card-body">
     <pl-question-panel>
-    <p>The table uses different <code>bit-width</code> values for each input column and also expects multiple bits for one of the output columns. It also provides no cell-level feedback to students and is graded on an all-or-nothing basis because <code>show-partial-score</code> and <code>show-percentage-score</code> are both set to <code>false</code>.</p>
+    <p>The table uses different <code>bit-width</code> values for each input column and also expects multiple bits for one of the output columns. Note that the size of the input box is determined automatically based on the expected output size. It also provides no cell-level feedback to students and is graded on an all-or-nothing basis because <code>show-partial-score</code> and <code>show-percentage-score</code> are both set to <code>false</code>.</p>
     </pl-question-panel>
     <pl-truth-table
       answers-name="q4"
-      output-name="[not Y, not X]"
+      output-name="[X >> 1, Y << 3]"
       input-name="[X, Y]"
-      output-values="[1, 0, 1, 0, 1, 0, 1, 0], [11, 11, 10, 10, 01, 01, 00, 00]"
+      output-values="[0, 0, 0, 0, 1, 1, 1, 1], [0000, 1000, 0000, 1000, 0000, 1000, 0000, 1000]"
       bit-width="[2, 1]"
+      prefill="0"
       show-partial-score="false"
       show-percentage-score="false"
+    >
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 5</div>
+  <div class="card-body">
+    <pl-question-panel>
+    <p>The table is identical to the previous one, but has <code>constant-size</code> set to a fixed value. Therefore, cells are not scaled to the size of the expected output and reveal less information to students. Note that <code>placeholder</code> and <code>prefill</code> should be empty in this case, so they don't give the expected size away for the students.</p>
+    </pl-question-panel>
+    <pl-truth-table
+      answers-name="q5"
+      output-name="[X >> 1, Y << 3]"
+      input-name="[X, Y]"
+      output-values="[0, 0, 0, 0, 1, 1, 1, 1], [0000, 1000, 0000, 1000, 0000, 1000, 0000, 1000]"
+      bit-width="[2, 1]"
+      placeholder=""
+      show-partial-score="false"
+      show-percentage-score="false"
+      constant-size="5"
     >
   </div>
 </div>

@@ -4,10 +4,10 @@
         <thead>
             <tr>
                 {{#columns}}
-                <th>{{name}}</th>
+                <th class="input-column">{{name}}</th>
             {{/columns}}
             {{#output_name}}
-            <th>{{.}}</th>
+            <th class="output-column">{{.}}</th>
         {{/output_name}}
         {{^is_material}}
 {{/is_material}}
@@ -17,18 +17,18 @@
     {{#rows}}
     <tr>
         {{#input}}
-        <td>{{.}}</td>
+        <td class="input-column">{{.}}</td>
     {{/input}}
 {{#is_material}}
     {{! If it is question material, display correct answer directly}}
 {{#output}}
-    <td>{{output_value}}</td>
+    <td class="output-column">{{output_value}}</td>
 {{/output}}
 {{/is_material}}
 {{^is_material}}
 {{! If it is question-required material, use input field}}
 {{#output}}
-<td>
+<td class="output-column">
     <div class="result-container">
         <input type="text"
             name="{{cell_name}}"
@@ -104,10 +104,10 @@
         <thead>
             <tr>
             {{#columns}}
-                <th>{{name}}</th>
+                <th class="input-column">{{name}}</th>
             {{/columns}}
             {{#output_name}}
-                <th>{{.}}</th>
+                <th class="output-column">{{.}}</th>
             {{/output_name}}
 </tr>
 </thead>
@@ -115,15 +115,15 @@
     {{#rows}}
     <tr>
         {{#input}}
-        <td>{{.}}</td>
+        <td class="input-column">{{.}}</td>
     {{/input}}
     {{#output}}
     {{#is_material}}
     {{! If it is question material, display correct answer directly}}
-        <td>{{output_value}}</td>
+        <td class="output-column">{{output_value}}</td>
     {{/is_material}}
     {{^is_material}}
-    <td>
+    <td class="output-column">
         <div class="result-container">
             {{sub}}
             <span class="input-group-append">
@@ -185,10 +185,10 @@
         <thead>
             <tr>
                 {{#columns}}
-                <th>{{name}}</th>
+                <th class="input-column">{{name}}</th>
             {{/columns}}
             {{#output_name}}
-            <th>{{.}}</th>
+            <th class="output-column">{{.}}</th>
         {{/output_name}}
     </tr>
 </thead>
@@ -196,10 +196,10 @@
     {{#rows}}
     <tr>
         {{#input}}
-        <td>{{.}}</td>
+        <td class="input-column">{{.}}</td>
     {{/input}}
     {{#output}}
-    <td>{{output_value}}</td>
+    <td class="output-column">{{output_value}}</td>
 {{/output}}
 </tr>
 {{/rows}}

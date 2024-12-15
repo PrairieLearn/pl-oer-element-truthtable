@@ -18,6 +18,7 @@ PREFILL_DEFAULT = ""
 SHOW_HELP_TEXT_DEFAULT = True
 SHOW_PERCENTAGE_SCORE_DEFAULT = True
 SHOW_PARTIAL_SCORE_DEFAULT = True
+CONSTANT_SIZE_DEFAULT = 0
 
 TRUTH_TABLE_MUSTACHE_TEMPLATE_NAME = "pl-truth-table.mustache"
 
@@ -35,6 +36,7 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
         "show-percentage-score",
         "bit-width",
         "alphabet",
+        "constant-size"
     ]
     pl.check_attribs(element, required_attribs, optional_attribs)
 
@@ -58,6 +60,14 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
         num_rows = 2 ** (
             int(bit_width) * len(variables)
         )  # Total rows in the truth table based on the number of variables and bit width
+
+    # Just to test that the number is an integer > 0
+    constant_size = int(pl.get_string_attrib(element, "constant-size", CONSTANT_SIZE_DEFAULT))
+    if constant_size < 0:
+        raise ValueError(
+            f"The constant size for inputs must 0 or greater."
+        )
+
     # Get the single correct-answer string from the HTML and split it for each row
     output_string = pl.get_string_attrib(
         element, "output-values", CORRECT_ANSWER_DEFAULT
@@ -120,6 +130,8 @@ def render(element_html: str, data: pl.QuestionData) -> str:
     show_partial_score = pl.get_boolean_attrib(
         element, "show-partial-score", SHOW_PARTIAL_SCORE_DEFAULT
     )
+    constant_size = int(pl.get_string_attrib(element, "constant-size", CONSTANT_SIZE_DEFAULT))
+
     score = data["partial_scores"].get(name, {"score": None}).get("score", None)
     if score is not None:
         score = float(score) * 100
@@ -181,6 +193,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
         row["input"] = [i.replace("1", alphabet[0]) for i in row["input"]]
         row["input"] = [i.replace("0", alphabet[1]) for i in row["input"]]
         for k in range(num_output):
+            size = constant_size or len(placeholder_l[k])
             output = {
                 "cell_name": f"{name}_{i}_{k}",
                 "output_index": k,
@@ -192,7 +205,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
                     f"{name}_{i}_{k}", CORRECT_ANSWER_DEFAULT
                 ),
                 "placeholder": placeholder_l[k],
-                "width": 16 + 8 * len(placeholder_l[k])
+                "width": 16 + 8 * size
             }
             row["output"].append(output)
         rows.append(row)
