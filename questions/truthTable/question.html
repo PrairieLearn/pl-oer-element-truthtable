@@ -49,7 +49,7 @@
   <div class="card-header">Part 3</div>
   <div class="card-body">
     <pl-question-panel>
-    <p>This table provies no cell-level feedback and also allows the value <code>X</code> to include outputs that are based on unknown inputs.
+    <p>This table has <code>show-partial-score</code> set to <code>false</code>, so it provides no cell-level feedback and has its<code>alphabet</code> set to <code>TFX</code> to also allow the value <code>X</code> for outputs that are based on unknown inputs.
     </pl-question-panel>
     <pl-truth-table
       answers-name="q3"
@@ -67,7 +67,7 @@
   <div class="card-header">Part 4</div>
   <div class="card-body">
     <pl-question-panel>
-    <p>The table uses different bit-widths for each input and output column. It also provides no feedback to students and is graded on an all-or-nothing basis.</p>
+    <p>The table uses different <code>bit-width</code> values for each input column and also expects multiple bits for one of the output columns. It also provides no feedback to students and is graded on an all-or-nothing basis because <code>show-partial-score</code> and <code>show-percentage-score</code> are both set to <code>false</code>.</p>
     </pl-question-panel>
     <pl-truth-table
       answers-name="q4"
