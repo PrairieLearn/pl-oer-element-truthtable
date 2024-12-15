@@ -178,8 +178,8 @@ def render(element_html: str, data: pl.QuestionData) -> str:
         alphabet = pl.get_string_attrib(
                         element, "alphabet", ALPHABET_DEFAULT
                     )
-        row["input"].replace("1", alphabet[0])
-        row["input"].replace("0", alphabet[1])
+        row["input"] = [i.replace("1", alphabet[0]) for i in row["input"]]
+        row["input"] = [i.replace("0", alphabet[1]) for i in row["input"]]
         for k in range(num_output):
             output = {
                 "cell_name": f"{name}_{i}_{k}",
