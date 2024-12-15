@@ -5,34 +5,43 @@
   justify-content: center;
 }
 
-.table {
+.truth-table {
   width: auto;
 }
 
-.table th,
-.table td {
+.truth-table th,
+.truth-table td {
   min-width: 40px;
 }
 
-.table th {
+.truth-table th {
   background-color: #007bff;
+  border: 1px solid white;
   color: white;
 }
 
-.table td {
+.truth-table td {
   border: 1px solid #d1d5db;
   vertical-align: middle;
   padding: 2px !important;
 }
 
-.table input::placeholder {
+.truth-table input::placeholder {
   color: rgb(234, 110, 131);
   opacity: 1;
 }
 
-.table input[type="text"] {
+.truth-table input[type="text"] {
   width: 50px;
 }
+
+.truth-table>tbody>tr:nth-child(odd)>td {
+   background-color: white;
+ }
+
+ .truth-table>tbody>tr:nth-child(even)>td {
+   background-color: #EEEEEE;
+ }
 
 .info-button {
   padding: 0;
