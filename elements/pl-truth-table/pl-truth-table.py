@@ -362,7 +362,7 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
                     answer_name
                 ] = f"Invalid format. The submitted answer must be {expected_len} bit(s) long."
                 data["submitted_answers"][answer_name] = pl.to_json(a_sub)
-            elif not set(a_sub).issubset(set(alphabet)):
+            elif not set(a_sub.lower()).issubset(set(alphabet.lower())):
                 alphabet_print = ",".join(set(alphabet))
                 data["format_errors"][
                     answer_name
