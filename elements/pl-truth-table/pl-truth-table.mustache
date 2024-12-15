@@ -10,19 +10,6 @@
             <th>{{.}}</th>
         {{/output_name}}
         {{^is_material}}
-        <th>
-            {{#all_correct}}
-            <span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span>
-        {{/all_correct}}
-        {{^all_correct}}
-        {{#all_incorrect}}
-        <span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span>
-    {{/all_incorrect}}
-    {{^all_incorrect}}
-    {{#score}}<span class="badge badge-warning badge-large"><i class="fa fa-circle-o" aria-hidden="true"></i> {{score}}%</span>{{/score}}
-{{/all_incorrect}}
-{{/all_correct}}
-</th>
 {{/is_material}}
 </tr>
 </thead>
@@ -83,7 +70,19 @@
 {{/rows}}
 </tbody>
 </table>
-<span><a role="button"
+<span>
+{{#all_correct}}
+    <span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
+        {{/all_correct}}
+        {{^all_correct}}
+        {{#all_incorrect}}
+        <span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
+    {{/all_incorrect}}
+    {{^all_incorrect}}
+    {{#score}}<span class="badge badge-warning badge-large"><i class="fa fa-circle-o" aria-hidden="true"></i> {{score}}%</span><br>{{/score}}
+{{/all_incorrect}}
+{{/all_correct}}
+    <a role="button"
         class="btn info-button btn-info align-items-center"
         data-toggle="popover"
         data-html="true"
