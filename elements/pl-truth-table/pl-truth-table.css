@@ -1,0 +1,54 @@
+.t-tbl-block {
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.table {
+  width: auto;
+}
+
+.table th,
+.table td {
+  min-width: 40px;
+}
+
+.table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.table td {
+  border: 1px solid #d1d5db;
+  vertical-align: middle;
+}
+
+.table input::placeholder {
+  color: rgb(234, 110, 131);
+  opacity: 1;
+}
+
+.table input[type="text"] {
+  width: 50px;
+}
+
+.info-button {
+  padding: 0;
+}
+
+.result-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-group-text {
+  color: transparent;
+  background-color: transparent;
+  border: none;
+}
+
+.info-button {
+  width: 40px;
+}

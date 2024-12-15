@@ -1,0 +1,7 @@
+{
+    "controller": "pl-truth-table.py",
+    "dependencies": {
+      "elementScripts": ["pl-truth-table.js"],
+      "elementStyles": ["pl-truth-table.css"]
+    }
+}

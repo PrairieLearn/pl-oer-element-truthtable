@@ -1,0 +1,211 @@
+{{#question}}
+<div class="t-tbl-block">
+    <table class="table thead-light table-striped table-hover table-condensed rounded-3 overflow-hidden">
+        <thead>
+            <tr>
+                {{#columns}}
+                <th>{{name}}</th>
+            {{/columns}}
+            {{#output_name}}
+            <th>{{.}}</th>
+        {{/output_name}}
+        {{^is_material}}
+        <th>
+            {{#all_correct}}
+            <span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span>
+        {{/all_correct}}
+        {{^all_correct}}
+        {{#all_incorrect}}
+        <span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span>
+    {{/all_incorrect}}
+    {{^all_incorrect}}
+    {{#score}}<span class="badge badge-warning badge-large"><i class="fa fa-circle-o" aria-hidden="true"></i> {{score}}%</span>{{/score}}
+{{/all_incorrect}}
+{{/all_correct}}
+</th>
+{{/is_material}}
+</tr>
+</thead>
+<tbody>
+    {{#rows}}
+    <tr>
+        {{#input}}
+        <td>{{.}}</td>
+    {{/input}}
+    {{#is_material}}
+    {{! If it is question material, display correct answer directly}}
+    {{#output}}
+    <td>{{output_value}}</td>
+{{/output}}
+{{/is_material}}
+{{^is_material}}
+{{! If it is question-required material, use input field}}
+{{#output}}
+<td>
+    <div class="result-container">
+        <input type="text"
+            name="{{cell_name}}"
+            class="form-control"
+            value="{{sub}}"
+            placeholder="{{placeholder}}" />
+        <span class="input-group-append">
+            {{#show_partial_score}}
+            {{#correct}}
+            <span class="input-group-text">
+                <span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"></i> 100%</span>
+            </span>
+        {{/correct}}
+        {{#incorrect}}
+        <span class="input-group-text">
+            <span class="badge badge-danger"><i class="fa fa-times" aria-hidden="true"></i> 0%</span>
+        </span>
+    {{/incorrect}}
+{{/show_partial_score}}
+{{#input_error}}
+<a role="button"
+    class="btn btn-light border d-flex align-items-center text-danger"
+    data-toggle="popover"
+    data-html="true"
+    title="Format Error"
+    data-placement="auto"
+    data-trigger="focus"
+    tabindex="0"
+    data-content="{{input_error}}">
+    <span class="mr-1">Invalid</span> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+</a>
+{{/input_error}}
+</span>
+</div>
+</td>
+{{/output}}
+{{#is_first_row}}
+<td rowspan={{num_rows}}>
+    <a role="button"
+        class="btn info-button btn-light align-items-center"
+        data-toggle="popover"
+        data-html="true"
+        title="Truth Table"
+        data-content="{{info}}"
+        data-placement="auto"
+        data-trigger="focus"
+        tabindex="0">
+        <i class="fa fa-question-circle" aria-hidden="true"></i>
+    </a>
+</td>
+{{/is_first_row}}
+{{/is_material}}
+</tr>
+{{/rows}}
+</tbody>
+</table>
+</div>
+{{/question}}
+{{#submission}}
+<div class="t-tbl-block">
+    <table class="table thead-light table-striped table-hover rounded-3 overflow-hidden">
+        <thead>
+            <tr>
+                {{#columns}}
+                <th>{{name}}</th>
+            {{/columns}}
+            {{#output_name}}
+            <th>{{.}}</th>
+        {{/output_name}}
+        {{^is_material}}
+        <th>
+            {{#all_correct}}
+            <span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span>
+        {{/all_correct}}
+        {{^all_correct}}
+        {{#all_incorrect}}
+        <span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span>
+    {{/all_incorrect}}
+    {{^all_incorrect}}
+    {{#score}}<span class="badge badge-warning badge-large"><i class="fa fa-circle-o" aria-hidden="true"></i> {{score}}%</span>{{/score}}
+{{/all_incorrect}}
+{{/all_correct}}
+</th>
+{{/is_material}}
+</tr>
+</thead>
+<tbody>
+    {{#rows}}
+    <tr>
+        {{#input}}
+        <td>{{.}}</td>
+    {{/input}}
+    {{#output}}
+    <td>
+        <div class="result-container">
+            {{sub}}
+            <span class="input-group-append">
+                {{#show_partial_score}}
+                {{#correct}}
+                <span class="input-group-text">
+                    <span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"></i> 100%</span>
+                </span>
+            {{/correct}}
+            {{#incorrect}}
+            <span class="input-group-text">
+                <span class="badge badge-danger"><i class="fa fa-times" aria-hidden="true"></i> 0%</span>
+            </span>
+        {{/incorrect}}
+    {{/show_partial_score}}
+    {{#input_error}}
+    <a role="button"
+        class="btn btn-light border d-flex align-items-center text-danger"
+        data-toggle="popover"
+        data-html="true"
+        title="Format Error"
+        data-placement="auto"
+        data-trigger="focus"
+        tabindex="0"
+        data-content="{{input_error}}">
+        <span class="mr-1">Invalid</span> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    </a>
+{{/input_error}}
+</span>
+</div>
+</td>
+{{/output}}
+{{#is_first_row}}
+<td rowspan={{num_rows}}>
+</td>
+{{/is_first_row}}
+</tr>
+{{/rows}}
+</tbody>
+</table>
+</div>
+{{/submission}}
+{{#answer}}
+<div class="t-tbl-block">
+    <table class="table thead-light table-striped table-hover rounded-3 overflow-hidden">
+        <thead>
+            <tr>
+                {{#columns}}
+                <th>{{name}}</th>
+            {{/columns}}
+            {{#output_name}}
+            <th>{{.}}</th>
+        {{/output_name}}
+    </tr>
+</thead>
+<tbody>
+    {{#rows}}
+    <tr>
+        {{#input}}
+        <td>{{.}}</td>
+    {{/input}}
+    {{#output}}
+    <td>{{output_value}}</td>
+{{/output}}
+</tr>
+{{/rows}}
+</tbody>
+</table>
+</div>
+{{/answer}}
+{{#format}}
+<p> Only using characters in {{input_alphabet}}. {{grading_text}}</p>
+{{/format}}

@@ -1,0 +1,74 @@
+<pl-question-panel>
+  <pl-card>
+    <p>1)</p>
+    <p>This demostrates how to use truth table as an question material</p>
+    <pl-truth-table
+      answers-name="q1"
+      output-name="[X and Y, X or Y, X xor Y]"
+      input-name="[X, Y]"
+      output-values="[0, 0, 0, 1], [0, 1, 1, 1], [0, 1, 1, 0]"
+      is-material="true"
+    ></pl-truth-table>
+  </pl-card>
+</pl-question-panel>
+
+<pl-card>
+  <p>2)</p>
+  <pl-question-panel>
+    <p>Complete the following truth table for: X AND Y AND Z</p>
+    <p>(Grading mode: percentage score with cell feedback)</p>
+  </pl-question-panel>
+
+  <p>
+    <pl-truth-table
+      answers-name="q2"
+      output-name="[X and Y and Z, X or Y or Z]"
+      input-name="[X, Y, Z]"
+      output-values="[F, F, F, F, F, F, F, T], [F, T, T, T, T, T, T, T]"
+      input-alphabet="TF"
+      prefill="F"
+    >
+    </pl-truth-table>
+  </p>
+</pl-card>
+
+<pl-card>
+  <p>3)</p>
+  <pl-question-panel>
+    <p>Complete the following truth table for: X AND Y AND Z</p>
+    <p>(Grading mode: percentage score without cell feedback)</p>
+  </pl-question-panel>
+
+  <p>
+    <pl-truth-table
+      answers-name="q3"
+      output-name="[f(X Y), g(X Y)]"
+      input-name="[X, Y]"
+      output-values="[1, 1, 1, 1, 1, 1, 1, 0], [11, 11, 11, 11, 11, 11, 11, 00]"
+      bit-width="[2, 1]"
+      show-partial-score="false"
+    >
+    </pl-truth-table>
+  </p>
+</pl-card>
+
+<pl-card>
+  <p>4)</p>
+  <pl-question-panel>
+    <p>Complete the following truth table for: X OR Y</p>
+    <p>(Grading mode: all-or-nothing, no cell feedback)</p>
+  </pl-question-panel>
+
+  <p>
+    <pl-truth-table
+      answers-name="q4"
+      output-name="X or Y"
+      input-name="[X, Y]"
+      output-values="[00, 01, 10, 11, 01, 01, 11, 11, 10, 11, 10, 11, 11, 11, 11, 11]"
+      bit-width="2"
+      show-partial-score="false"
+      show-percentage-score="false"
+    >
+    </pl-truth-table>
+  </p>
+</pl-card>
