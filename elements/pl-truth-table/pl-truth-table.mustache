@@ -78,10 +78,13 @@
 </div>
 </td>
 {{/output}}
-{{#is_first_row}}
-<td rowspan={{num_rows}}>
-    <a role="button"
-        class="btn info-button btn-light align-items-center"
+{{/is_material}}
+</tr>
+{{/rows}}
+</tbody>
+</table>
+<span><a role="button"
+        class="btn info-button btn-info align-items-center"
         data-toggle="popover"
         data-html="true"
         title="Truth Table"
@@ -90,14 +93,7 @@
         data-trigger="focus"
         tabindex="0">
         <i class="fa fa-question-circle" aria-hidden="true"></i>
-    </a>
-</td>
-{{/is_first_row}}
-{{/is_material}}
-</tr>
-{{/rows}}
-</tbody>
-</table>
+    </a></span>
 </div>
 {{/question}}
 {{#submission}}
