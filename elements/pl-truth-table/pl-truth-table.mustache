@@ -172,6 +172,7 @@
 </div>
 {{/submission}}
 {{#answer}}
+{{^is_material}}
 <div class="t-tbl-block">
     <table class="truth-table table thead-light table-hover rounded-3 overflow-hidden">
         <thead>
@@ -198,6 +199,7 @@
 </tbody>
 </table>
 </div>
+{{/is_material}}
 {{/answer}}
 {{#format}}
 <p> Use only the characters {{alphabet}} in each cell. {{grading_text}}</p>
