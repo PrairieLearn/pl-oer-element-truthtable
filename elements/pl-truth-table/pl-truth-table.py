@@ -266,6 +266,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             "columns": columns,
             "rows": rows,
             "num_rows": num_rows,
+            "is_material": is_material,
             "show_partial_score": show_partial_score,
             "score": score,
             "all_correct": ac,
