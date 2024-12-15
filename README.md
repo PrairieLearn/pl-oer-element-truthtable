@@ -11,16 +11,16 @@ This element creates a truth table and can be used for both instructional materi
 
 ### Example
 
-![truth_table](example.png)
+<img src="example.png" width="300">
 
-    ```html
-    <pl-truth-table
-        answers-name="q2"
-        input-name="[X, Y, Z]"
-        output-name="X AND Y AND Z"
-        output-values="[0,0,0,0,0,0,0,1]">
-    </pl-truth-table>
-    ```
+```html
+<pl-truth-table
+    answers-name="q1"
+    input-name="[X, Y, Z]"
+    output-name="X AND Y AND Z"
+    output-values="[0,0,0,0,0,0,0,1]">
+</pl-truth-table>
+```
 
 ### Element Attributes
 
@@ -31,7 +31,7 @@ This element creates a truth table and can be used for both instructional materi
 | `output-name` | string (required) | Names of the input variables, displayed in the table header. For multiple input columns, wrap names in the style of an array (in square brakets and comma-seperated, `"[X OR Y, X AND Y]"`). |
 | `bit-width` | string (default: `"1"`) | The number of bits for each input variable. Provide a single number to set a consistent bit width for all inputs. For different bit widths per column, wrap lengths in the style of an array (in square brakets and comma-seperated, `"[1,2]"`). |
 | `is-material` | boolean (default: `false`) | If set to `true`, outputs are displayed and the table is static, to be used as instructor-provided material |
-| `output-values` | string (required) | Output values for the table (displayed to students when `is-material=true`, and used for grading otherwise). Wrap values in the style of an array (in square brakets and comma-seperated, e.g., `"[0, 1, 1, 1]"`). For multiple output columns, separate each column's values by a comma (e.g., `"[0, 1, 1, 1], [0, 0, 0, 1]"`). Outputs can have multiple bits as well (e.g., `"[00, 11]"`). The number of output columns must match the number of names provided in `output-name`, and the number of values per column must be 2^N for N input columns. |
+| `output-values` | string (required) | Output values for the table (displayed to students when `is-material=true`, and used for grading otherwise). Wrap values in the style of an array (in square brakets and comma-seperated, e.g., `"[0, 1, 1, 1]"`). For multiple output columns, separate each column's values by a comma (e.g., `"[0, 1, 1, 1], [0, 0, 0, 1]"`). Outputs can have multiple bits as well (e.g., `"[00, 11]"`). The number of output columns must match the number of names provided in `output-name`, and the number of values per column must be 2^N for N input bits. |
 | `alphabet` | string (default: `10`) | The characters used in the truth table. Enter the character corresponding to `true` first, and then the one corresponding to `false`. Other legal output characters can be appended afterwards. For example, set `alphabet="TF"` to use T and F, or `alphabet="TFX"` to allow `X` to mark unknown outputs. Note that all `output-values` must use the alphabet defined here. |
 | `placeholder` | string (default: `?`) | The placeholder shown for empty input boxes. |
 | `prefill` | string (default: `0`) | A value prefilled for all input boxes (useful for large but sparsely filled tables). |
