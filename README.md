@@ -18,8 +18,8 @@ This element creates a truth table and can be used for both instructional materi
         answers-name="q2"
         input-name="[X, Y, Z]"
         output-name="X AND Y AND Z"
-        output-values="[0,0,0,0,0,0,0,1]"
-    </pl-truth-table>>
+        output-values="[0,0,0,0,0,0,0,1]">
+    </pl-truth-table>
     ```
 
 ### Element Attributes
