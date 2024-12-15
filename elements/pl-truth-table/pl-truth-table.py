@@ -214,15 +214,16 @@ def render(element_html: str, data: pl.QuestionData) -> str:
         grading_text = ""
         if show_partial_score:
             if show_percentage_score:
-                grading_text = "Feedback for each cell is available."  
+                grading_text = "You will receive credit per correct cell, and feedback which cells are filled out correctly"  
         else:
             if show_percentage_score:
-                grading_text = "Feedback for each cell is hidden. Partial Score is shown above."  
+                grading_text = "You will receive credit per correct cell, but no detailed feedback on which cells are correct."  
             else:
-                grading_text = "Partial score and feedback for each cell is hidden. You need to get all cells correct to get full score. Partial correct will still result in 0%."
+                grading_text = "You will not receive partial credit unless the entire table is filled correctly."
 
         info_params = {
             "format": True,
+            "bitwidth": bit_width,
             "grading_text": grading_text,
             "input_alphabet": str(
                 set(

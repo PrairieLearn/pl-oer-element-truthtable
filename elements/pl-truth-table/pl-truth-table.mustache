@@ -70,6 +70,7 @@
 {{/rows}}
 </tbody>
 </table>
+{{#is_material}}
 <span>
 {{#all_correct}}
     <span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
@@ -79,7 +80,7 @@
         <span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
     {{/all_incorrect}}
     {{^all_incorrect}}
-    {{#score}}<span class="badge badge-warning badge-large"><i class="fa fa-circle-o" aria-hidden="true"></i> {{score}}%</span><br>{{/score}}
+    {{#score}}<span class="badge badge-warning badge-large">{{score}}%</span><br>{{/score}}
 {{/all_incorrect}}
 {{/all_correct}}
     <a role="button"
@@ -93,6 +94,7 @@
         tabindex="0">
         <i class="fa fa-question-circle" aria-hidden="true"></i>
     </a></span>
+{{/is_material}}
 </div>
 {{/question}}
 {{#submission}}
@@ -202,5 +204,5 @@
 </div>
 {{/answer}}
 {{#format}}
-<p> Only using characters in {{input_alphabet}}. {{grading_text}}</p>
+<p> Enter exactly {{bitwidth}} characters ({{input_alphabet}}) per cell. {{grading_text}}</p>
 {{/format}}
