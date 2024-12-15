@@ -361,9 +361,10 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
                 ] = f"Invalid format. The submitted answer must be {expected_len} bit(s) long."
                 data["submitted_answers"][answer_name] = None
             elif not set(a_sub).issubset(set(alphabet)):
+                alphabet_print = ",".join(set(alphabet))
                 data["format_errors"][
                     answer_name
-                ] = f"Invalid format. Input not in alphabet ({",".join(set(alphabet))})."
+                ] = f"Invalid format. Input not in alphabet ({alphabet_print})."
                 data["submitted_answers"][answer_name] = None
             else:
                 # Store the submitted answer for this row
