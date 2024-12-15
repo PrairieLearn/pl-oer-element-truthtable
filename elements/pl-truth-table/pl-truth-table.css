@@ -36,11 +36,11 @@
 }
 
 .truth-table>tbody>tr:nth-child(odd)>td {
-   background-color: white;
+   background-color: white !important;
  }
 
  .truth-table>tbody>tr:nth-child(even)>td {
-   background-color: #EEEEEE;
+   background-color: #EEEEEE !important;
  }
 
 .info-button {
