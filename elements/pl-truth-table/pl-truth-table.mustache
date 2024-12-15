@@ -102,27 +102,12 @@
     <table class="truth-table table thead-light table-hover rounded-3 overflow-hidden">
         <thead>
             <tr>
-                {{#columns}}
+            {{#columns}}
                 <th>{{name}}</th>
             {{/columns}}
             {{#output_name}}
-            <th>{{.}}</th>
-        {{/output_name}}
-        {{^is_material}}
-        <th>
-            {{#all_correct}}
-            <span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span>
-        {{/all_correct}}
-        {{^all_correct}}
-        {{#all_incorrect}}
-        <span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span>
-    {{/all_incorrect}}
-    {{^all_incorrect}}
-    {{#score}}<span class="badge badge-warning badge-large"><i class="fa fa-circle-o" aria-hidden="true"></i> {{score}}%</span>{{/score}}
-{{/all_incorrect}}
-{{/all_correct}}
-</th>
-{{/is_material}}
+                <th>{{.}}</th>
+            {{/output_name}}
 </tr>
 </thead>
 <tbody>
@@ -165,14 +150,25 @@
 </div>
 </td>
 {{/output}}
-{{#is_first_row}}
-<td rowspan={{num_rows}}>
-</td>
-{{/is_first_row}}
 </tr>
 {{/rows}}
 </tbody>
 </table>
+{{^is_material}}
+<span>
+{{#all_correct}}
+            <span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span>
+        {{/all_correct}}
+        {{^all_correct}}
+        {{#all_incorrect}}
+        <span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span>
+    {{/all_incorrect}}
+    {{^all_incorrect}}
+    {{#score}}<span class="badge badge-warning badge-large"><i class="fa fa-circle-o" aria-hidden="true"></i> {{score}}%</span>{{/score}}
+{{/all_incorrect}}
+{{/all_correct}}
+</span>
+{{/is_material}}
 </div>
 {{/submission}}
 {{#answer}}
