@@ -10,7 +10,7 @@ from typing_extensions import assert_never
 
 BIT_WIDTH_DEFAULT = "1"
 CORRECT_ANSWER_DEFAULT = None
-INPUT_ALPHABET_DEFAULT = "10"
+ALPHABET_DEFAULT = "10"
 IS_MATERIAL_DEFAULT = False
 LABEL_DEFAULT = None
 PLACEHOLDER_DEFAULT = "?"
@@ -34,7 +34,7 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
         "is-material",
         "show-percentage-score",
         "bit-width",
-        "input-alphabet",
+        "alphabet",
     ]
     pl.check_attribs(element, required_attribs, optional_attribs)
 
@@ -78,14 +78,14 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
                 raise ValueError(
                     f"The length of the correct answer ({len(output)}) must match the number of rows ({num_rows})."
                 )
-            # check if the value is in the input alphabet
-            input_alphabet = pl.get_string_attrib(
-                element, "input-alphabet", INPUT_ALPHABET_DEFAULT
+            # check if the value is in the alphabet
+            alphabet = pl.get_string_attrib(
+                element, "alphabet", ALPHABET_DEFAULT
             )
             char_level_set = {char for item in set(output) for char in item}
-            if not char_level_set.issubset(set(input_alphabet)):
+            if not char_level_set.issubset(set(alphabet)):
                 raise ValueError(
-                    f"Invalid format. Provided output {char_level_set} not in alphabet {set(input_alphabet)}."
+                    f"Invalid format. Provided output {char_level_set} not in alphabet {set(alphabet)}."
                 )
             width = len(output[0])
             # Split the correct_answer into individual answers for each row
@@ -175,6 +175,11 @@ def render(element_html: str, data: pl.QuestionData) -> str:
                 # Format the bits as a binary string with leading zeros to ensure k bits
                 bit_str = format(bits, f"0{bit_width}b")
                 row["input"].append(bit_str)
+        alphabet = pl.get_string_attrib(
+                        element, "alphabet", ALPHABET_DEFAULT
+                    )
+        row["input"].replace("1", alphabet[0])
+        row["input"].replace("0", alphabet[1])
         for k in range(num_output):
             output = {
                 "cell_name": f"{name}_{i}_{k}",
@@ -225,10 +230,10 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             "format": True,
             "bitwidth": bit_width,
             "grading_text": grading_text,
-            "input_alphabet": ', '.join(
+            "alphabet": ', '.join(
                 set(
                     pl.get_string_attrib(
-                        element, "input-alphabet", INPUT_ALPHABET_DEFAULT
+                        element, "alphabet", ALPHABET_DEFAULT
                     )
                 )
             ),
@@ -331,8 +336,8 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
             int(bit_width) * len(variables)
         )  # Total rows in the truth table based on the number of variables and bit width
         
-    input_alphabet = pl.get_string_attrib(
-        element, "input-alphabet", INPUT_ALPHABET_DEFAULT
+    alphabet = pl.get_string_attrib(
+        element, "alphabet", ALPHABET_DEFAULT
     )
 
     # Loop through each row to capture submitted answers
@@ -355,10 +360,10 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
                     answer_name
                 ] = f"Invalid format. The submitted answer must be {expected_len} bit(s) long."
                 data["submitted_answers"][answer_name] = None
-            elif not set(a_sub).issubset(set(input_alphabet)):
+            elif not set(a_sub).issubset(set(alphabet)):
                 data["format_errors"][
                     answer_name
-                ] = f"Invalid format. Input not in alphabet {set(input_alphabet)}."
+                ] = f"Invalid format. Input not in alphabet ({",".join(set(alphabet))})."
                 data["submitted_answers"][answer_name] = None
             else:
                 # Store the submitted answer for this row

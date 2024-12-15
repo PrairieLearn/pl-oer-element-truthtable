@@ -1,7 +1,23 @@
 <pl-question-panel>
-  <pl-card>
-    <p>1)</p>
-    <p>This demostrates how to use truth table as an question material</p>
+  <p>
+    Questions below were designed to showcase the different features of
+    <code>pl-truth-table</code> The goal of
+    <code>pl-truth-table</code> is simplify the rendering and grading of truth 
+    tables in engineering or computer science courses. Input columns are automatically
+    generated and output columns are filled manually (for display or to grade student 
+    submissions).
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Part 1</div>
+  <div class="card-body">
+    <pl-question-panel>
+    <p>If the <code>is-material</code> attribute is set to <code>true</code>, tables are 
+    rendered statically and can be used as instructor-provided material for a question. 
+    In this example, 2 input-columns are auto-generated and 3 output columns are manually 
+    filled via the <code>output-values</code> attribute.</p>
+    </pl-question-panel>
     <pl-truth-table
       answers-name="q1"
       output-name="[X and Y, X or Y, X xor Y]"
@@ -9,8 +25,25 @@
       output-values="[0, 0, 0, 1], [0, 1, 1, 1], [0, 1, 1, 0]"
       is-material="true"
     ></pl-truth-table>
-  </pl-card>
-</pl-question-panel>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 2</div>
+  <div class="card-body">
+    <pl-question-panel>
+    <p>For this table, <code>is-material</code> is set to <code>false</code> and the <code>alphabet</code> is set to <code>TF</code>. All output cells are prefilled with <code>F</code> so that students only have to change the relevant cells to <code>T</code>.</p>
+    </pl-question-panel>
+    <pl-truth-table
+      answers-name="q2"
+      output-name="[X and Y and Z, X or Y or Z]"
+      input-name="[X, Y, Z]"
+      output-values="[F, F, F, F, F, F, F, T], [F, T, T, T, T, T, T, T]"
+      input-alphabet="TF"
+      prefill="F"
+    >
+  </div>
+</div>
 
 <pl-card>
   <p>2)</p>
