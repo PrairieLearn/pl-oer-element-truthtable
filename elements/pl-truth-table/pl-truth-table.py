@@ -417,7 +417,7 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
             if a_tru is None:
                 break
             if answer_name in data["submitted_answers"]:
-                if data["submitted_answers"][answer_name] == a_tru:
+                if data["submitted_answers"][answer_name].lower() == a_tru.lower():
                     data["partial_scores"][answer_name] = {
                         "score": 1,
                         "feedback": "Correct.",
