@@ -14,7 +14,7 @@ ALPHABET_DEFAULT = "10"
 IS_MATERIAL_DEFAULT = False
 LABEL_DEFAULT = None
 PLACEHOLDER_DEFAULT = "?"
-PREFILL_DEFAULT = "0"
+PREFILL_DEFAULT = ""
 SHOW_HELP_TEXT_DEFAULT = True
 SHOW_PERCENTAGE_SCORE_DEFAULT = True
 SHOW_PARTIAL_SCORE_DEFAULT = True
@@ -359,13 +359,13 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
                 data["format_errors"][
                     answer_name
                 ] = f"Invalid format. The submitted answer must be {expected_len} bit(s) long."
-                data["submitted_answers"][answer_name] = None
+                data["submitted_answers"][answer_name] = pl.to_json(a_sub)
             elif not set(a_sub).issubset(set(alphabet)):
                 alphabet_print = ",".join(set(alphabet))
                 data["format_errors"][
                     answer_name
                 ] = f"Invalid format. Input not in alphabet ({alphabet_print})."
-                data["submitted_answers"][answer_name] = None
+                data["submitted_answers"][answer_name] = pl.to_json(a_sub)
             else:
                 # Store the submitted answer for this row
                 data["submitted_answers"][answer_name] = pl.to_json(a_sub)
