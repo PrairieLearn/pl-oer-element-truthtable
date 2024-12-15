@@ -70,7 +70,7 @@
 {{/rows}}
 </tbody>
 </table>
-{{#is_material}}
+{{^is_material}}
 <span>
 {{#all_correct}}
     <span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
@@ -139,12 +139,12 @@
                 {{#show_partial_score}}
                 {{#correct}}
                 <span class="input-group-text">
-                    <span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"></i> 100%</span>
+                    <span class="badge badge-success"><i class="fa fa-check" aria-label="correct"></i></span>
                 </span>
             {{/correct}}
             {{#incorrect}}
             <span class="input-group-text">
-                <span class="badge badge-danger"><i class="fa fa-times" aria-hidden="true"></i> 0%</span>
+                <span class="badge badge-danger"><i class="fa fa-times" aria-label="incorrect"></i></span>
             </span>
         {{/incorrect}}
     {{/show_partial_score}}

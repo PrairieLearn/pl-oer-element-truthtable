@@ -225,7 +225,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             "format": True,
             "bitwidth": bit_width,
             "grading_text": grading_text,
-            "input_alphabet": str(
+            "input_alphabet": ', '.join(
                 set(
                     pl.get_string_attrib(
                         element, "input-alphabet", INPUT_ALPHABET_DEFAULT
