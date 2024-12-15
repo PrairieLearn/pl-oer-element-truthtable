@@ -32,7 +32,9 @@
 }
 
 .truth-table input[type="text"] {
-  width: 50px;
+  padding: 2px;
+  min-height: calc(1.5em + 2px);
+  text-align: center;
 }
 
 .truth-table>tbody>tr:nth-child(odd)>td {

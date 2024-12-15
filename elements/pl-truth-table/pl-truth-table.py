@@ -192,6 +192,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
                     f"{name}_{i}_{k}", CORRECT_ANSWER_DEFAULT
                 ),
                 "placeholder": placeholder_l[k],
+                "width": 16 + 8 * len(placeholder_l[k])
             }
             row["output"].append(output)
         rows.append(row)
