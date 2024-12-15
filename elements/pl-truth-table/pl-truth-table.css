@@ -22,6 +22,7 @@
 .table td {
   border: 1px solid #d1d5db;
   vertical-align: middle;
+  padding: 2px !important;
 }
 
 .table input::placeholder {
