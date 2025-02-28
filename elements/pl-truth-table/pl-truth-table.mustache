@@ -1,210 +1,191 @@
 {{#question}}
 <div class="t-tbl-block">
-    <table class="truth-table table thead-light table-hover table-condensed rounded-3 overflow-hidden">
-        <thead>
-            <tr>
-                {{#columns}}
-                <th class="input-column">{{name}}</th>
-            {{/columns}}
-            {{#output_name}}
-            <th class="output-column">{{.}}</th>
-        {{/output_name}}
-        {{^is_material}}
-{{/is_material}}
-</tr>
-</thead>
-<tbody>
-    {{#rows}}
-    <tr>
-        {{#input}}
-        <td class="input-column">{{.}}</td>
-    {{/input}}
-{{#is_material}}
-    {{! If it is question material, display correct answer directly}}
-{{#output}}
-    <td class="output-column">{{output_value}}</td>
-{{/output}}
-{{/is_material}}
-{{^is_material}}
-{{! If it is question-required material, use input field}}
-{{#output}}
-<td class="output-column">
-    <div class="result-container">
-        <input type="text"
-            name="{{cell_name}}"
-            class="form-control"
-            value="{{sub}}"
-            style="width:{{width}}px"
-            placeholder="{{placeholder}}" />
-        <span class="input-group-append">
-            {{#show_partial_score}}
-            {{#correct}}
-            <span class="input-group-text">
-                <span class="badge badge-success"><i class="fa fa-check" aria-label="correct"></i></span>
-            </span>
-        {{/correct}}
-        {{#incorrect}}
-        <span class="input-group-text">
-            <span class="badge badge-danger"><i class="fa fa-times" aria-label="incorrect"></i></span>
-        </span>
-    {{/incorrect}}
-{{/show_partial_score}}
-{{#input_error}}
-<a role="button"
-    class="btn btn-light border d-flex align-items-center text-danger"
-    data-toggle="popover"
-    data-html="true"
-    title="Format Error"
-    data-placement="auto"
-    data-trigger="focus"
-    tabindex="0"
-    data-content="{{input_error}}">
-    <span class="mr-1">Invalid</span> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-</a>
-{{/input_error}}
-</span>
-</div>
-</td>
-{{/output}}
-{{/is_material}}
-</tr>
-{{/rows}}
-</tbody>
-</table>
-{{^is_material}}
-<span>
-{{#all_correct}}
-    <span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
-        {{/all_correct}}
-        {{^all_correct}}
-        {{#all_incorrect}}
-        <span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
-    {{/all_incorrect}}
-    {{^all_incorrect}}
-    {{#score}}<span class="badge badge-warning badge-large">{{score}}%</span><br>{{/score}}
-{{/all_incorrect}}
-{{/all_correct}}
-    <a role="button"
-        class="btn info-button btn-info align-items-center"
-        data-toggle="popover"
-        data-html="true"
-        title="Truth Table"
-        data-content="{{info}}"
-        data-placement="auto"
-        data-trigger="focus"
-        tabindex="0">
-        <i class="fa fa-question-circle" aria-hidden="true"></i>
-    </a></span>
-{{/is_material}}
+	<table class="truth-table table thead-light table-hover table-condensed rounded-3 overflow-hidden">
+		<thead>
+			<tr>
+				{{#columns}}
+				<th class="input-column">{{name}}</th>
+				{{/columns}}
+				{{#output_name}}
+				<th class="output-column">{{.}}</th>
+				{{/output_name}}
+				{{^is_material}}
+				{{/is_material}}
+			</tr>
+		</thead>
+		<tbody>
+			{{#rows}}
+			<tr>
+				{{#input}}
+				<td class="input-column">{{.}}</td>
+				{{/input}}
+				{{#is_material}}
+				{{! If it is question material, display correct answer directly}}
+				{{#output}}
+				<td class="output-column">{{output_value}}</td>
+				{{/output}}
+				{{/is_material}}
+				{{^is_material}}
+				{{! If it is question-required material, use input field}}
+				{{#output}}
+				<td class="output-column">
+					<div class="result-container">
+						<input type="text" name="{{cell_name}}" class="form-control" value="{{sub}}" style="width:{{width}}px"
+							placeholder="{{placeholder}}" />
+						<span class="input-group-append">
+							{{#show_partial_score}}
+							{{#correct}}
+							<span class="input-group-text">
+								<span class="badge badge-success"><i class="fa fa-check" aria-label="correct"></i></span>
+							</span>
+							{{/correct}}
+							{{#incorrect}}
+							<span class="input-group-text">
+								<span class="badge badge-danger"><i class="fa fa-times" aria-label="incorrect"></i></span>
+							</span>
+							{{/incorrect}}
+							{{/show_partial_score}}
+							{{#input_error}}
+							<button type="button" style="vertical-align:middle;"
+								class="btn btn-light border d-flex align-items-center text-danger" data-toggle="popover"
+								data-html="true" title="Format Error" data-content="{{input_error}}" tabindex="0">
+								<span class="mr-1">Invalid</span> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+							</button></span>
+						{{/input_error}}
+						</span>
+					</div>
+				</td>
+				{{/output}}
+				{{/is_material}}
+			</tr>
+			{{/rows}}
+		</tbody>
+	</table>
+	{{^is_material}}
+	<span>
+		{{#all_correct}}
+		<span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i>
+			100%</span><br>
+		{{/all_correct}}
+		{{^all_correct}}
+		{{#all_incorrect}}
+		<span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
+		{{/all_incorrect}}
+		{{^all_incorrect}}
+		{{#score}}<span class="badge badge-warning badge-large">{{score}}%</span><br>{{/score}}
+		{{/all_incorrect}}
+		{{/all_correct}}
+
+		<button type="button" style="vertical-align:middle;" class="btn btn-info btn-sm" data-toggle="popover"
+			data-html="true" title="Truth Table" data-content="{{info}}">
+			<i class="fa fa-question-circle" aria-hidden="true"></i>
+		</button></span>
+	{{/is_material}}
 </div>
 {{/question}}
 {{#submission}}
 <div class="t-tbl-block">
-    <table class="truth-table table thead-light table-hover rounded-3 overflow-hidden">
-        <thead>
-            <tr>
-            {{#columns}}
-                <th class="input-column">{{name}}</th>
-            {{/columns}}
-            {{#output_name}}
-                <th class="output-column">{{.}}</th>
-            {{/output_name}}
-</tr>
-</thead>
-<tbody>
-    {{#rows}}
-    <tr>
-        {{#input}}
-        <td class="input-column">{{.}}</td>
-    {{/input}}
-    {{#output}}
-    {{#is_material}}
-    {{! If it is question material, display correct answer directly}}
-        <td class="output-column">{{output_value}}</td>
-    {{/is_material}}
-    {{^is_material}}
-    <td class="output-column">
-        <div class="result-container">
-            {{sub}}
-            <span class="input-group-append">
-                {{#show_partial_score}}
-                {{#correct}}
-                <span class="input-group-text">
-                    <span class="badge badge-success"><i class="fa fa-check" aria-label="correct"></i></span>
-                </span>
-            {{/correct}}
-            {{#incorrect}}
-            <span class="input-group-text">
-                <span class="badge badge-danger"><i class="fa fa-times" aria-label="incorrect"></i></span>
-            </span>
-        {{/incorrect}}
-    {{/show_partial_score}}
-    {{#input_error}}
-    <a role="button"
-        class="btn btn-light border d-flex align-items-center text-danger"
-        data-toggle="popover"
-        data-html="true"
-        title="Format Error"
-        data-placement="auto"
-        data-trigger="focus"
-        tabindex="0"
-        data-content="{{input_error}}">
-        <span class="mr-1">Invalid</span> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-    </a>
-{{/input_error}}
-</span>
-</div>
-</td>
-{{/is_material}}
-{{/output}}
-</tr>
-{{/rows}}
-</tbody>
-</table>
-{{^is_material}}
-<span>
-{{#all_correct}}
-            <span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span>
-        {{/all_correct}}
-        {{^all_correct}}
-        {{#all_incorrect}}
-        <span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span>
-    {{/all_incorrect}}
-    {{^all_incorrect}}
-    {{#score}}<span class="badge badge-warning badge-large"><i class="fa fa-circle-o" aria-hidden="true"></i> {{score}}%</span>{{/score}}
-{{/all_incorrect}}
-{{/all_correct}}
-</span>
-{{/is_material}}
+	<table class="truth-table table thead-light table-hover rounded-3 overflow-hidden">
+		<thead>
+			<tr>
+				{{#columns}}
+				<th class="input-column">{{name}}</th>
+				{{/columns}}
+				{{#output_name}}
+				<th class="output-column">{{.}}</th>
+				{{/output_name}}
+			</tr>
+		</thead>
+		<tbody>
+			{{#rows}}
+			<tr>
+				{{#input}}
+				<td class="input-column">{{.}}</td>
+				{{/input}}
+				{{#output}}
+				{{#is_material}}
+				{{! If it is question material, display correct answer directly}}
+				<td class="output-column">{{output_value}}</td>
+				{{/is_material}}
+				{{^is_material}}
+				<td class="output-column">
+					<div class="result-container">
+						{{sub}}
+						<span class="input-group-append">
+							{{#show_partial_score}}
+							{{#correct}}
+							<span class="input-group-text">
+								<span class="badge badge-success"><i class="fa fa-check" aria-label="correct"></i></span>
+							</span>
+							{{/correct}}
+							{{#incorrect}}
+							<span class="input-group-text">
+								<span class="badge badge-danger"><i class="fa fa-times" aria-label="incorrect"></i></span>
+							</span>
+							{{/incorrect}}
+							{{/show_partial_score}}
+							{{#input_error}}
+
+							<button type="button" style="vertical-align:middle;"
+								class="btn btn-light border d-flex align-items-center text-danger" data-toggle="popover"
+								data-html="true" title="Format Error" data-content="{{input_error}}" tabindex="0">
+								<span class="mr-1">Invalid</span> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+							</button></span>
+						{{/input_error}}
+						</span>
+					</div>
+				</td>
+				{{/is_material}}
+				{{/output}}
+			</tr>
+			{{/rows}}
+		</tbody>
+	</table>
+	{{^is_material}}
+	<span>
+		{{#all_correct}}
+		<span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span>
+		{{/all_correct}}
+		{{^all_correct}}
+		{{#all_incorrect}}
+		<span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span>
+		{{/all_incorrect}}
+		{{^all_incorrect}}
+		{{#score}}<span class="badge badge-warning badge-large"><i class="fa fa-circle-o" aria-hidden="true"></i>
+			{{score}}%</span>{{/score}}
+		{{/all_incorrect}}
+		{{/all_correct}}
+	</span>
+	{{/is_material}}
 </div>
 {{/submission}}
 {{#answer}}
 {{^is_material}}
 <div class="t-tbl-block">
-    <table class="truth-table table thead-light table-hover rounded-3 overflow-hidden">
-        <thead>
-            <tr>
-                {{#columns}}
-                <th class="input-column">{{name}}</th>
-            {{/columns}}
-            {{#output_name}}
-            <th class="output-column">{{.}}</th>
-        {{/output_name}}
-    </tr>
-</thead>
-<tbody>
-    {{#rows}}
-    <tr>
-        {{#input}}
-        <td class="input-column">{{.}}</td>
-    {{/input}}
-    {{#output}}
-    <td class="output-column">{{output_value}}</td>
-{{/output}}
-</tr>
-{{/rows}}
-</tbody>
-</table>
+	<table class="truth-table table thead-light table-hover rounded-3 overflow-hidden">
+		<thead>
+			<tr>
+				{{#columns}}
+				<th class="input-column">{{name}}</th>
+				{{/columns}}
+				{{#output_name}}
+				<th class="output-column">{{.}}</th>
+				{{/output_name}}
+			</tr>
+		</thead>
+		<tbody>
+			{{#rows}}
+			<tr>
+				{{#input}}
+				<td class="input-column">{{.}}</td>
+				{{/input}}
+				{{#output}}
+				<td class="output-column">{{output_value}}</td>
+				{{/output}}
+			</tr>
+			{{/rows}}
+		</tbody>
+	</table>
 </div>
 {{/is_material}}
 {{/answer}}
