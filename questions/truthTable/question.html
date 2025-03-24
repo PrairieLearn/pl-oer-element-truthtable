@@ -22,7 +22,7 @@
       answers-name="q1"
       output-name="[X and Y, X or Y, X xor Y]"
       input-name="[X, Y]"
-      output-values="[0, 0, 0, 1], [0, 1, 1, 1], [0, 1, 1, 0]"
+      correct-answer="[0, 0, 0, 1], [0, 1, 1, 1], [0, 1, 1, 0]"
       is-material="true"
     ></pl-truth-table>
   </div>
@@ -38,10 +38,10 @@
       answers-name="q2"
       output-name="[X and Y and Z, X or Y or Z]"
       input-name="[X, Y, Z]"
-      output-values="[F, F, F, F, F, F, F, T], [F, T, T, T, T, T, T, T]"
+      correct-answer="[F, F, F, F, F, F, F, T], [F, T, T, T, T, T, T, T]"
       alphabet="TF"
       prefill="F"
-    >
+    ></pl-truth-table>
   </div>
 </div>
 
@@ -49,16 +49,17 @@
   <div class="card-header">Part 3</div>
   <div class="card-body">
     <pl-question-panel>
-    <p>This table has no <code>prefill</code> set, and <code>show-partial-score</code> is <code>false</code>, so it provides no cell-level feedback. It also has its <code>alphabet</code> set to <code>TFX</code> to allow the value <code>X</code> to be used for unknown outputs (that are based on unknown inputs, such as C).</p>
+    <p>This table has no <code>prefill</code> set, and <code>show-cell-score</code> is <code>false</code>, so it provides no cell-level feedback. However, <code>show-column-score</code> is <code>true</code>, so students see aggregated column scores instead. The table also has its <code>alphabet</code> set to <code>TFX</code> to allow the value <code>X</code> to be used for unknown outputs (that are based on unknown inputs, such as C).</p>
     </pl-question-panel>
     <pl-truth-table
       answers-name="q3"
       output-name="[A and B and C, A or B or C]"
       input-name="[A, B]"
-      output-values="[F, F, F, X], [X, T, T, T]"
+      correct-answer="[F, F, F, X], [X, T, T, T]"
       alphabet="TFX"
-      show-partial-score="false"
-    >
+      show-cell-score="false"
+      show-column-score="true"
+    ></pl-truth-table>
   </div>
 </div>
 
@@ -66,18 +67,18 @@
   <div class="card-header">Part 4</div>
   <div class="card-body">
     <pl-question-panel>
-    <p>The table uses different <code>bit-width</code> values for each input column and also expects multiple bits for one of the output columns. Note that the size of the input box is determined automatically based on the expected output size. It also provides no cell-level feedback to students and is graded on an all-or-nothing basis because <code>show-partial-score</code> and <code>show-percentage-score</code> are both set to <code>false</code>.</p>
+    <p>The table uses different <code>bit-width</code> values for each input column and also expects multiple bits for one of the output columns. Note that the size of the input box is determined automatically based on the expected output size. It also provides no feedback to students and is graded on an all-or-nothing basis because <code>partial-credit</code> and <code>show-cell-score</code> are both set to <code>false</code>.</p>
     </pl-question-panel>
     <pl-truth-table
       answers-name="q4"
       output-name="[X >> 1, Y << 3]"
       input-name="[X, Y]"
-      output-values="[0, 0, 0, 0, 1, 1, 1, 1], [0000, 1000, 0000, 1000, 0000, 1000, 0000, 1000]"
+      correct-answer="[0, 0, 0, 0, 1, 1, 1, 1], [0000, 1000, 0000, 1000, 0000, 1000, 0000, 1000]"
       bit-width="[2, 1]"
       prefill="0"
-      show-partial-score="false"
-      show-percentage-score="false"
-    >
+      partial-credit="false"
+      show-cell-score="false"
+    ></pl-truth-table>
   </div>
 </div>
 
@@ -91,12 +92,12 @@
       answers-name="q5"
       output-name="[X >> 1, Y << 3]"
       input-name="[X, Y]"
-      output-values="[0, 0, 0, 0, 1, 1, 1, 1], [0000, 1000, 0000, 1000, 0000, 1000, 0000, 1000]"
+      correct-answer="[0, 0, 0, 0, 1, 1, 1, 1], [0000, 1000, 0000, 1000, 0000, 1000, 0000, 1000]"
       bit-width="[2, 1]"
       placeholder=""
-      show-partial-score="false"
-      show-percentage-score="false"
+      partial-credit="false"
+      show-cell-score="false"
       constant-size="5"
-    >
+    ></pl-truth-table>
   </div>
 </div>

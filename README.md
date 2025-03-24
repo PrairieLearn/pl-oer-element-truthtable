@@ -18,7 +18,7 @@ This element creates a truth table and can be used for both instructional materi
     answers-name="q1"
     input-name="[X, Y, Z]"
     output-name="X AND Y AND Z"
-    output-values="[0,0,0,0,0,0,0,1]">
+    correct-answer="[0,0,0,0,0,0,0,1]">
 </pl-truth-table>
 ```
 
@@ -30,12 +30,12 @@ This element creates a truth table and can be used for both instructional materi
 | `input-name` | string (required) | Names of the input variables, displayed in the table header. For multiple input columns, wrap names in the style of an array (in square brakets and comma-seperated, e.g., `"[X, Y, Z]"`). |
 | `output-name` | string (required) | Names of the input variables, displayed in the table header. For multiple input columns, wrap names in the style of an array (in square brakets and comma-seperated, `"[X OR Y, X AND Y]"`). |
 | `bit-width` | string (default: `"1"`) | The number of bits for each input variable. Provide a single number to set a consistent bit width for all inputs. For different bit widths per column, wrap lengths in the style of an array (in square brakets and comma-seperated, `"[1,2]"`). |
-| `is-material` | boolean (default: `false`) | If set to `true`, outputs are displayed and the table is static, to be used as instructor-provided material |
-| `output-values` | string (required) | Output values for the table (displayed to students when `is-material=true`, and used for grading otherwise). Wrap values in the style of an array (in square brakets and comma-seperated, e.g., `"[0, 1, 1, 1]"`). For multiple output columns, separate each column's values by a comma (e.g., `"[0, 1, 1, 1], [0, 0, 0, 1]"`). Outputs can have multiple bits as well (e.g., `"[00, 11]"`). The number of output columns must match the number of names provided in `output-name`, and the number of values per column must be 2^N for N input bits. |
+| `correct-answer` | string (required, unless set via `data["correct_answers"]` in `server.py`) | Correct output values for the table. Wrap values in the style of an array (in square brakets and comma-seperated, e.g., `"[0, 1, 1, 1]"`). For multiple output columns, separate each column's values by a comma (e.g., `"[0, 1, 1, 1], [0, 0, 0, 1]"`). Outputs can have multiple bits as well (e.g., `"[00, 11]"`). The number of output columns must match the number of names provided in `output-name`, and the number of values per column must be 2^N for N input bits. |
+| `is-material` | boolean (default: `false`) | If set to `true`, outputs are immediately displayed and the table is static, to be used as instructor-provided material. All of the remaining attributes only apply if `is-material` is set to `false`. |
+| `partial-credit` | boolean (default: `true`) | If set to `true`, students receive partial credit based on the percentage of correctly filled cells. Otherwise, all-or-nothing grading is used. |
 | `alphabet` | string (default: `10`) | The characters used in the truth table. Enter the character corresponding to `true` first, and then the one corresponding to `false`. Other legal output characters can be appended afterwards. For example, set `alphabet="TF"` to use T and F, or `alphabet="TFX"` to allow `X` to mark unknown outputs. Note that all `output-values` must use the alphabet defined here. |
 | `placeholder` | string (default: `?`) | The placeholder shown for empty input boxes. |
 | `prefill` | string (default: `""`) | A value prefilled for all input boxes (useful for large but sparsely filled tables). |
 | `constant-size` | string (default: `"0"`) | If set to `"0"`, the size of text boxes automatically scales with the bit-width of the values set in `output-values`. To reveal less information about the expected size of the solutions, this attribute allows a constant size (number of expected characters) to be set for all outputs. |
-| `show-partial-score` | boolean (default: `true`) | Shows row-by-row grading feedback via a badge next to the each row. |
-| `show-percentage-score` | boolean (default: `true`) | Assigns a percentage score for the question that is displayed as a badge. If set to `false`, all-or-nothing grading is used. |
-
+| `show-cell-score` | boolean (default: `true`) | If set to `true`, students are shown a badge for each individual cell that tells them if their answer is correct. Otherwise, no cell-level feedback is provided. |
+| `show-column-score` | boolean (default: `false`) | If set to `true`, students are shown a badge for each column that tells them the percentage of their answers in that column that is correct. Otherwise, no column-level feedback is provided. |

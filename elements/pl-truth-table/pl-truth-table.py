@@ -16,8 +16,9 @@ LABEL_DEFAULT = None
 PLACEHOLDER_DEFAULT = "?"
 PREFILL_DEFAULT = ""
 SHOW_HELP_TEXT_DEFAULT = True
-SHOW_PERCENTAGE_SCORE_DEFAULT = True
-SHOW_PARTIAL_SCORE_DEFAULT = True
+SHOW_CELL_SCORE_DEFAULT = True
+PARTIAL_CREDIT_DEFAULT = True
+SHOW_COLUMN_SCORE_DEFAULT = False
 CONSTANT_SIZE_DEFAULT = 0
 
 TRUTH_TABLE_MUSTACHE_TEMPLATE_NAME = "pl-truth-table.mustache"
@@ -25,15 +26,17 @@ TRUTH_TABLE_MUSTACHE_TEMPLATE_NAME = "pl-truth-table.mustache"
 
 def prepare(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
-    required_attribs = ["answers-name", "input-name", "output-name", "output-values"]
+    required_attribs = ["answers-name", "input-name", "output-name"]
     optional_attribs = [
+        "correct-answer",
         "label",
         "display",
         "prefill",
         "placeholder",
-        "show-partial-score",
+        "partial-credit",
         "is-material",
-        "show-percentage-score",
+        "show-cell-score",
+        "show-column-score",
         "bit-width",
         "alphabet",
         "constant-size"
@@ -69,9 +72,18 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
         )
 
     # Get the single correct-answer string from the HTML and split it for each row
-    output_string = pl.get_string_attrib(
-        element, "output-values", CORRECT_ANSWER_DEFAULT
+    output_string = None
+    if ("correct_answers" in data and name in data["correct_answers"]):
+        output_string = data["correct_answers"][name]
+    else:
+        output_string = pl.get_string_attrib(
+        element, "correct-answer", CORRECT_ANSWER_DEFAULT
     )
+    if output_string is None:
+        raise ValueError(
+                f"data[\"correct_answers\"][{name}] not declared in server.py. Alternatively, fill out element attribute \"correct-answer\""
+            )
+
     output_list = (
         re.split(r"\],\s+\[", output_string) if output_string is not None else None
     )
@@ -126,10 +138,11 @@ def render(element_html: str, data: pl.QuestionData) -> str:
     for k in range(num_output):
         placeholder_l.append(placeholder * len(data["correct_answers"][f"{name}_0_{k}"]))
     prefill = pl.get_string_attrib(element, "prefill", PREFILL_DEFAULT)
-    show_percentage_score = pl.get_boolean_attrib(element, "show-percentage-score", SHOW_PERCENTAGE_SCORE_DEFAULT)
-    show_partial_score = pl.get_boolean_attrib(
-        element, "show-partial-score", SHOW_PARTIAL_SCORE_DEFAULT
+    show_cell_score = pl.get_boolean_attrib(element, "show-cell-score", SHOW_CELL_SCORE_DEFAULT)
+    partial_credit = pl.get_boolean_attrib(
+        element, "partial-credit", PARTIAL_CREDIT_DEFAULT
     )
+    show_column_score = pl.get_boolean_attrib(element, "show-column-score", SHOW_COLUMN_SCORE_DEFAULT)
     constant_size = int(pl.get_string_attrib(element, "constant-size", CONSTANT_SIZE_DEFAULT))
 
     score = data["partial_scores"].get(name, {"score": None}).get("score", None)
@@ -209,6 +222,12 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             }
             row["output"].append(output)
         rows.append(row)
+
+    col_percentage_updated = False
+    # stores column accuracies
+    column_data = []
+    raw_column_scores = [0.0] * num_output
+
     for index in range(num_rows):
         for k in range(num_output):
             answer_name = f"{name}_{index}_{k}"
@@ -219,26 +238,45 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             )
             if partial_score is not None:
                 try:
+                    col_percentage_updated = True
                     partial_score = float(partial_score)
                     if partial_score >= 1:
                         rows[index]["output"][k]["correct"] = True
+                        raw_column_scores[k] += 1
                     else:
                         rows[index]["output"][k]["incorrect"] = True
                 except Exception as e:
                     raise ValueError("invalid score" + partial_score) from e
+                
+    try: 
+        for i in range(len(raw_column_scores)):
+            col = {
+                "name" : output_name[i],
+                "percentage" : (raw_column_scores[i] / num_rows) * 100,
+            }
+            column_data.append(col)
+    except Exception as e:
+        raise ValueError("invalid column scores - " + raw_column_scores) from e
+
     # Get template
     with open(TRUTH_TABLE_MUSTACHE_TEMPLATE_NAME, "r", encoding="utf-8") as f:
         template = f.read()
     if data["panel"] == "question":
         grading_text = ""
-        if show_partial_score:
-            if show_percentage_score:
-                grading_text = "You will receive credit per correct cell, and feedback which cells are filled out correctly"  
-        else:
-            if show_percentage_score:
-                grading_text = "You will receive credit per correct cell, but no detailed feedback on which cells are correct."  
+        if partial_credit:
+            if show_cell_score:
+                grading_text = "You will receive partial credit per correct cell, and feedback which cells are filled out correctly"  
+            elif show_column_score:
+                grading_text = "You will receive partial credit per correct cell, and feedback to which degree each column is filled out correctly" 
             else:
-                grading_text = "You will not receive partial credit unless the entire table is filled correctly."
+                grading_text = "You will receive partial credit per correct cell, but no feedback which cells are filled out correctly" 
+        else:
+            if show_cell_score:
+                grading_text = "You will not receive partial credit unless the entire table is filled correctly, but feedback on which cells are correct."  
+            elif show_column_score:
+                grading_text = "You will not receive partial credit unless the entire table is filled correctly, but feedback to which degree each column is filled out correctly." 
+            else:
+                grading_text = "You will not receive partial credit or feedback unless the entire table is filled correctly."
 
         info_params = {
             "format": True,
@@ -264,7 +302,10 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             "rows": rows,
             "num_rows": num_rows,
             "is_material": is_material,
-            "show_partial_score": show_partial_score,
+            "show_cell_score": show_cell_score,
+            "show_column_score": show_column_score,
+            "column_data":column_data,
+            "col_percentage_updated": col_percentage_updated,
             "score": score,
             "all_correct": ac,
             "all_incorrect": aw,
@@ -281,7 +322,10 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             "rows": rows,
             "num_rows": num_rows,
             "is_material": is_material,
-            "show_partial_score": show_partial_score,
+            "show_cell_score": show_cell_score,
+            "show_column_score": show_column_score,
+            "column_data":column_data,
+            "col_percentage_updated": col_percentage_updated,
             "score": score,
             "all_correct": ac,
             "all_incorrect": aw,
@@ -304,7 +348,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
                 elif answer_name not in data["submitted_answers"]:
                     data["format_errors"][answer_name] = "No submitted answer."
                     html_params["parse_error"] = None
-        if show_partial_score and score is not None:
+        if partial_credit and score is not None:
             score_type, score_value = pl.determine_score_params(score)
             html_params[score_type] = score_value
         return chevron.render(template, html_params).strip()
@@ -416,8 +460,8 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
         o_name = o_name.lstrip("").rstrip("")
     num_output = len(output_name)
 
-    percentage_score = pl.get_boolean_attrib(
-        element, "show-percentage-score", SHOW_PERCENTAGE_SCORE_DEFAULT
+    partial_credit = pl.get_boolean_attrib(
+        element, "partial-credit", PARTIAL_CREDIT_DEFAULT
     )
 
     is_incorrect = False
@@ -441,19 +485,17 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
                         "score": 0,
                         "feedback": "Incorrect.",
                     }
-                    if not percentage_score:
+                    if not partial_credit:
                         is_incorrect = True
-                        break
             else:
                 data["partial_scores"][answer_name] = {
                     "score": 0,
                     "feedback": "Missing input.",
                 }
-                if not percentage_score:
+                if not partial_credit:
                     is_incorrect = True
-                    break
 
-    if not percentage_score and is_incorrect:
+    if not partial_credit and is_incorrect:
         # assign the score to all the answers
         score_sum = 0
         for index in range(num_rows):
@@ -462,10 +504,7 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
                 a_tru = pl.from_json(data["correct_answers"].get(answer_name, None))
                 if a_tru is None:
                     break
-                data["partial_scores"][answer_name] = {
-                    "score": 0.0,
-                    "feedback": "",
-                }
+                data["partial_scores"][answer_name]["weight"] = 0.0
 
     data["partial_scores"][name] = {"score": score_sum / (num_rows * num_output)}
 
