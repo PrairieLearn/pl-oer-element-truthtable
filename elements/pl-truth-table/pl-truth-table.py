@@ -1,7 +1,9 @@
+import csv
 import random
 import re
 from enum import Enum
 from typing import Any
+from io import StringIO
 
 import chevron
 import lxml.html
@@ -23,6 +25,21 @@ CONSTANT_SIZE_DEFAULT = 0
 
 TRUTH_TABLE_MUSTACHE_TEMPLATE_NAME = "pl-truth-table.mustache"
 
+def get_headers_as_array(raw_headers: str | None) -> list[str]:
+    """Convert a comma-separated list of column names into an array"""
+    raw_headers = raw_headers.lstrip("[").rstrip("]")
+    if not raw_headers:
+        return []
+
+    reader = csv.reader(
+        StringIO(raw_headers),
+        delimiter=",",
+        escapechar="\\",
+        quoting=csv.QUOTE_NONE,
+        skipinitialspace=True,
+        strict=True,
+    )
+    return next(reader)
 
 def prepare(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
@@ -46,12 +63,12 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
     name = pl.get_string_attrib(element, "answers-name")
     pl.check_answers_names(data, name)
 
-    output_name = pl.get_string_attrib(element, "output-name")  # [X or Y, X and Y]
-    output_name = output_name.lstrip("[").rstrip("]").split(",")
+    output_name_string = pl.get_string_attrib(element, "output-name")  # [X or Y, X and Y]
+    output_name = get_headers_as_array(output_name_string)
 
     # prepare the input variables e.g. ['X', 'Y']
     variable_string = pl.get_string_attrib(element, "input-name")
-    variables = variable_string.strip("[").strip("]").split(",")
+    variables = get_headers_as_array(variable_string)
     # check if different bitwidth is provided for each variable
     bit_width = pl.get_string_attrib(element, "bit-width", BIT_WIDTH_DEFAULT)
     num_rows = 1
@@ -123,8 +140,8 @@ def render(element_html: str, data: pl.QuestionData) -> str:
     name = pl.get_string_attrib(element, "answers-name")
     label = pl.get_string_attrib(element, "label", LABEL_DEFAULT)
     # Get the output name
-    output_name = pl.get_string_attrib(element, "output-name")  # [X or Y, X and Y]
-    output_name = output_name.lstrip("[").rstrip("]").split(",")
+    output_name_string = pl.get_string_attrib(element, "output-name")  # [X or Y, X and Y]
+    output_name = get_headers_as_array(output_name_string)
     for o_name in output_name:
         o_name = o_name.lstrip("").rstrip("")
     num_output = len(output_name)
@@ -153,7 +170,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
 
     # prepare the input variables e.g. ['X', 'Y']
     variable_string = pl.get_string_attrib(element, "input-name")
-    variables = variable_string.strip("[").strip("]").split(",")
+    variables = get_headers_as_array(variable_string)
 
     # Generate table data
     var_lenth = len(variables)
@@ -367,8 +384,8 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, "answers-name")
     # Get the output name
-    output_name = pl.get_string_attrib(element, "output-name")  # [X or Y, X and Y]
-    output_name = output_name.lstrip("[").rstrip("]").split(",")
+    output_name_string = pl.get_string_attrib(element, "output-name")  # [X or Y, X and Y]
+    output_name = get_headers_as_array(output_name_string)
     for o_name in output_name:
         o_name = o_name.lstrip("").rstrip("")
     num_output = len(output_name)
@@ -381,7 +398,7 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
     
     # prepare the input variables e.g. ['X', 'Y']
     variable_string = pl.get_string_attrib(element, "input-name")
-    variables = variable_string.strip("[").strip("]").split(",")
+    variables = get_headers_as_array(variable_string)
 
     # check if different bitwidth is provided for each variable
     bit_width = pl.get_string_attrib(element, "bit-width", BIT_WIDTH_DEFAULT)
@@ -441,7 +458,7 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
     name = pl.get_string_attrib(element, "answers-name")
     # prepare the input variables e.g. ['X', 'Y']
     variable_string = pl.get_string_attrib(element, "input-name")
-    variables = variable_string.strip("[").strip("]").split(",")
+    variables = get_headers_as_array(variable_string)
     # check if different bitwidth is provided for each variable
     bit_width = pl.get_string_attrib(element, "bit-width", BIT_WIDTH_DEFAULT)
     num_rows = 1
@@ -455,7 +472,7 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
         )  # Total rows in the truth table based on the number of variables and bit width
     # Get the output name
     output_name = pl.get_string_attrib(element, "output-name")  # [X or Y, X and Y]
-    output_name = output_name.lstrip("[").rstrip("]").split(",")
+    output_name = get_headers_as_array(output_name)
     for o_name in output_name:
         o_name = o_name.lstrip("").rstrip("")
     num_output = len(output_name)
@@ -508,6 +525,3 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
 
     data["partial_scores"][name] = {"score": score_sum / (num_rows * num_output)}
 
-
-def test(element_html: str, data: pl.ElementTestData) -> None:
-    return
