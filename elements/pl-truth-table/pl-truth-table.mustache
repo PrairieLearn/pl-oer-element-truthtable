@@ -4,11 +4,11 @@
         <thead>
             <tr>
                 {{#columns}}
-				<th class="input-column">{{name}}</th>
+				<th class="input-column">{{{name}}}</th>
                 {{/columns}}
 				{{#show_column_score}} 
 				{{#column_data}}
-				<th class="output-column">{{name}}
+				<th class="output-column">{{{name}}}
 					{{#col_percentage_updated}}
 					{{#all_correct}}
 					<span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
@@ -28,7 +28,7 @@
 				{{/show_column_score}}
 				{{^show_column_score}}  
 				{{#output_name}}  
-				<th class="output-column">{{.}}</th>
+				<th class="output-column">{{{.}}}</th>
 				{{/output_name}}
 				{{/show_column_score}}
             </tr>
@@ -132,11 +132,11 @@
 		<thead>
 			<tr>
 				{{#columns}}
-				<th class="input-column">{{name}}</th>
+				<th class="input-column">{{{name}}}</th>
 				{{/columns}}
 				{{#show_column_score}} 
 				{{#column_data}}
-				<th class="output-column"> {{name}}
+				<th class="output-column">{{{name}}}
 					{{#col_percentage_updated}}
 					{{#all_correct}}
 					<span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
@@ -156,7 +156,7 @@
 				{{/show_column_score}}
 				{{^show_column_score}}  
 				{{#output_name}}  
-				<th class="output-column">{{.}}</th>
+				<th class="output-column">{{{.}}}</th>
 				{{/output_name}}
 				{{/show_column_score}}
 			</tr>
@@ -239,10 +239,10 @@
         <thead>
             <tr>
                 {{#columns}}
-                <th class="input-column">{{name}}</th>
+                <th class="input-column">{{{name}}}</th>
             	{{/columns}}
             	{{#output_name}}
-            	<th class="output-column">{{.}}</th>
+            	<th class="output-column">{{{.}}}</th>
 				{{/output_name}}
     		</tr>
 		</thead>
