@@ -49,17 +49,17 @@
     border-left: 3px solid #d1d5db;
 }
 
-.info-button {
+.t-tbl-block .info-button {
   padding: 0;
 }
 
-.result-container {
+.t-tbl-block .result-container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.input-group-text {
+.t-tbl-block .input-group-text {
   color: transparent;
   background-color: transparent;
   border: none;
