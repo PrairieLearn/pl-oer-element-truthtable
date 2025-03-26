@@ -27,10 +27,10 @@ TRUTH_TABLE_MUSTACHE_TEMPLATE_NAME = "pl-truth-table.mustache"
 
 def get_headers_as_array(raw_headers: str | None) -> list[str]:
     """Convert a comma-separated list of column names into an array"""
-    raw_headers = raw_headers.lstrip("[").rstrip("]")
     if not raw_headers:
         return []
-
+    raw_headers = raw_headers.lstrip("[").rstrip("]")
+    
     reader = csv.reader(
         StringIO(raw_headers),
         delimiter=",",
