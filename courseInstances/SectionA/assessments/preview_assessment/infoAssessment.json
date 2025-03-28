@@ -14,7 +14,8 @@
         {
 	    "title": "Element preview", 
             "questions": [
-                { "id": "truthTable",                "points": 1}
+                { "id": "truthTable",                "points": 1},
+                { "id": "dynamicTruthTable",         "points": 1}
             ]
         },
         {

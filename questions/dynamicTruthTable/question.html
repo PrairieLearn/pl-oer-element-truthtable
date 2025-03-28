@@ -1,0 +1,36 @@
+<pl-question-panel>
+  <p>
+    This question illustrates how the truth table element can be set up dynamically using a <code>server.py</code> file for the question.
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Question 1</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>For simple randomization cases, <code>data["correct_answers"]</code> can be set dynamically as a string, depending on some randomized variable. For example, here <code>f(X,Y)</code> was chosen to be <code>X {{params.q1-text}} Y</code>.</p>
+    </pl-question-panel>
+    <pl-truth-table
+      answers-name="q1"
+      output-name="f(X\, Y)"
+      input-name="[X, Y]"
+    ></pl-truth-table>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Question 2</div>
+  <div class="card-body">
+    <pl-question-panel>
+    <p>In addition (or instead of) using <code>data["correct_answers"]</code>, dynamic parameters can be injected into the HTML attributes of the element via <code>data["params"]</code>. For example, here both the table headers, inputs and outputs are randomized, and even the table size can vary based on the chosen parameters.</p>
+    </pl-question-panel>
+    <pl-truth-table
+      answers-name="q2"
+      output-name="{{params.q2-output-names}}"
+      input-name="{{params.q2-input-names}}"
+      correct-answer="{{params.q2-correct-answer}}"
+    ></pl-truth-table>
+  </div>
+</div>
+
+
