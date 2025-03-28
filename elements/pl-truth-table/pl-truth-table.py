@@ -267,9 +267,12 @@ def render(element_html: str, data: pl.QuestionData) -> str:
                 
     try: 
         for i in range(len(raw_column_scores)):
+            score = int((raw_column_scores[i] / num_rows) * 100)
             col = {
                 "name" : output_name[i],
-                "percentage" : (raw_column_scores[i] / num_rows) * 100,
+                "percentage" : score,
+                "col_correct" : score == 100,
+                "col_incorrect" : score == 0
             }
             column_data.append(col)
     except Exception as e:
@@ -520,7 +523,7 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
                 answer_name = f"{name}_{index}_{k}"
                 a_tru = pl.from_json(data["correct_answers"].get(answer_name, None))
                 if a_tru is None:
-                    break
+                    continue
                 data["partial_scores"][answer_name]["weight"] = 0.0
 
     data["partial_scores"][name] = {"score": score_sum / (num_rows * num_output)}

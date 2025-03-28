@@ -10,18 +10,17 @@
 				{{#column_data}}
 				<th class="output-column">{{{name}}}
 					{{#col_percentage_updated}}
-					{{#all_correct}}
+					{{#col_correct}}
 					<span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
-					{{/all_correct}}
-					{{^all_correct}}
-					{{#all_incorrect}}
+					{{/col_correct}}
+					{{^col_correct}}
+					{{#col_incorrect}}
 					<span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
-					{{/all_incorrect}}
-					{{! Shows the overall score}}
-					{{^all_incorrect}}
+					{{/col_incorrect}}
+					{{^col_incorrect}}
 					<span class="badge badge-warning badge-large">{{percentage}}%</span><br>
-					{{/all_incorrect}}
-					{{/all_correct}} 
+					{{/col_incorrect}}
+					{{/col_correct}} 
 					{{/col_percentage_updated}}
 				</th>
 				{{/column_data}}
@@ -103,7 +102,6 @@
 		{{#all_incorrect}}
 		<span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
 		{{/all_incorrect}}
-		{{! Shows the overall score}}
 		{{^all_incorrect}}
 			{{#score}}<span class="badge badge-warning badge-large">{{score}}%</span><br>{{/score}}
 		{{/all_incorrect}}
@@ -138,18 +136,17 @@
 				{{#column_data}}
 				<th class="output-column">{{{name}}}
 					{{#col_percentage_updated}}
-					{{#all_correct}}
+					{{#col_correct}}
 					<span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
-					{{/all_correct}}
-					{{^all_correct}}
-					{{#all_incorrect}}
+					{{/col_correct}}
+					{{^col_correct}}
+					{{#col_incorrect}}
 					<span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
-					{{/all_incorrect}}
-					{{! Shows the overall score}}
-					{{^all_incorrect}}
+					{{/col_incorrect}}
+					{{^col_incorrect}}
 					<span class="badge badge-warning badge-large">{{percentage}}%</span><br>
-					{{/all_incorrect}}
-					{{/all_correct}} 
+					{{/col_incorrect}}
+					{{/col_correct}} 
 					{{/col_percentage_updated}}
 				</th>
 				{{/column_data}}
