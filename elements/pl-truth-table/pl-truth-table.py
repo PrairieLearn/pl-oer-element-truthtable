@@ -30,7 +30,7 @@ def get_headers_as_array(raw_headers: str | None) -> list[str]:
     if not raw_headers:
         return []
     raw_headers = raw_headers.lstrip("[").rstrip("]")
-    
+
     reader = csv.reader(
         StringIO(raw_headers),
         delimiter=",",
@@ -102,7 +102,7 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
             )
 
     output_list = (
-        re.split(r"\],\s+\[", output_string) if output_string is not None else None
+        re.split(r"\],\s*\[", output_string) if output_string is not None else None
     )
     # check if the number of output lists is equal to the number of output names
     if output_list is not None:
