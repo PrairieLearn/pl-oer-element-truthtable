@@ -223,7 +223,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
         row["input"] = [i.replace("1", alphabet[0]) for i in row["input"]]
         row["input"] = [i.replace("0", alphabet[1]) for i in row["input"]]
         for k in range(num_output):
-            size = constant_size or len(placeholder_l[k])
+            size = constant_size or len(data["correct_answers"][f"{name}_0_{k}"])
             output = {
                 "cell_name": f"{name}_{i}_{k}",
                 "output_index": k,
