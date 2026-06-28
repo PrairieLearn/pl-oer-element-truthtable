@@ -1,14 +1,10 @@
 import csv
-import random
 import re
-from enum import Enum
-from typing import Any
 from io import StringIO
 
 import chevron
 import lxml.html
 import prairielearn as pl
-from typing_extensions import assert_never
 
 BIT_WIDTH_DEFAULT = "1"
 CORRECT_ANSWER_DEFAULT = None
@@ -24,6 +20,7 @@ SHOW_COLUMN_SCORE_DEFAULT = False
 CONSTANT_SIZE_DEFAULT = 0
 
 TRUTH_TABLE_MUSTACHE_TEMPLATE_NAME = "pl-truth-table.mustache"
+
 
 def get_headers_as_array(raw_headers: str | None) -> list[str]:
     """Convert a comma-separated list of column names into an array"""
@@ -41,6 +38,7 @@ def get_headers_as_array(raw_headers: str | None) -> list[str]:
     )
     return next(reader)
 
+
 def prepare(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
     required_attribs = ["answers-name", "input-name", "output-name"]
@@ -56,14 +54,16 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
         "show-column-score",
         "bit-width",
         "alphabet",
-        "constant-size"
+        "constant-size",
     ]
     pl.check_attribs(element, required_attribs, optional_attribs)
 
     name = pl.get_string_attrib(element, "answers-name")
     pl.check_answers_names(data, name)
 
-    output_name_string = pl.get_string_attrib(element, "output-name")  # [X or Y, X and Y]
+    output_name_string = pl.get_string_attrib(
+        element, "output-name"
+    )  # [X or Y, X and Y]
     output_name = get_headers_as_array(output_name_string)
 
     # prepare the input variables e.g. ['X', 'Y']
@@ -77,29 +77,29 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
         for x in bit_width:
             num_rows *= 2 ** int(x)
     else:
-        num_rows = 2 ** (
-            int(bit_width) * len(variables)
+        num_rows = (
+            2 ** (int(bit_width) * len(variables))
         )  # Total rows in the truth table based on the number of variables and bit width
 
     # Just to test that the number is an integer > 0
-    constant_size = int(pl.get_string_attrib(element, "constant-size", CONSTANT_SIZE_DEFAULT))
+    constant_size = int(
+        pl.get_string_attrib(element, "constant-size", CONSTANT_SIZE_DEFAULT)
+    )
     if constant_size < 0:
-        raise ValueError(
-            f"The constant size for inputs must 0 or greater."
-        )
+        raise ValueError("The constant size for inputs must 0 or greater.")
 
     # Get the single correct-answer string from the HTML and split it for each row
     output_string = None
-    if ("correct_answers" in data and name in data["correct_answers"]):
+    if "correct_answers" in data and name in data["correct_answers"]:
         output_string = data["correct_answers"][name]
     else:
         output_string = pl.get_string_attrib(
-        element, "correct-answer", CORRECT_ANSWER_DEFAULT
-    )
+            element, "correct-answer", CORRECT_ANSWER_DEFAULT
+        )
     if output_string is None:
         raise ValueError(
-                f"data[\"correct_answers\"][{name}] not declared in server.py. Alternatively, fill out element attribute \"correct-answer\""
-            )
+            f'data["correct_answers"][{name}] not declared in server.py. Alternatively, fill out element attribute "correct-answer"'
+        )
 
     output_list = (
         re.split(r"\],\s*\[", output_string) if output_string is not None else None
@@ -118,9 +118,7 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
                     f"The length of the correct answer ({len(output)}) must match the number of rows ({num_rows})."
                 )
             # check if the value is in the alphabet
-            alphabet = pl.get_string_attrib(
-                element, "alphabet", ALPHABET_DEFAULT
-            )
+            alphabet = pl.get_string_attrib(element, "alphabet", ALPHABET_DEFAULT)
             char_level_set = {char for item in set(output) for char in item}
             if not char_level_set.issubset(set(alphabet)):
                 raise ValueError(
@@ -135,12 +133,15 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
                     )
                 data["correct_answers"][f"{name}_{row_index}_{k}"] = output[row_index]
 
+
 def render(element_html: str, data: pl.QuestionData) -> str:
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, "answers-name")
     label = pl.get_string_attrib(element, "label", LABEL_DEFAULT)
     # Get the output name
-    output_name_string = pl.get_string_attrib(element, "output-name")  # [X or Y, X and Y]
+    output_name_string = pl.get_string_attrib(
+        element, "output-name"
+    )  # [X or Y, X and Y]
     output_name = get_headers_as_array(output_name_string)
     for o_name in output_name:
         o_name = o_name.lstrip("").rstrip("")
@@ -153,14 +154,22 @@ def render(element_html: str, data: pl.QuestionData) -> str:
     placeholder = pl.get_string_attrib(element, "placeholder", PLACEHOLDER_DEFAULT)
     placeholder_l = []
     for k in range(num_output):
-        placeholder_l.append(placeholder * len(data["correct_answers"][f"{name}_0_{k}"]))
+        placeholder_l.append(
+            placeholder * len(data["correct_answers"][f"{name}_0_{k}"])
+        )
     prefill = pl.get_string_attrib(element, "prefill", PREFILL_DEFAULT)
-    show_cell_score = pl.get_boolean_attrib(element, "show-cell-score", SHOW_CELL_SCORE_DEFAULT)
+    show_cell_score = pl.get_boolean_attrib(
+        element, "show-cell-score", SHOW_CELL_SCORE_DEFAULT
+    )
     partial_credit = pl.get_boolean_attrib(
         element, "partial-credit", PARTIAL_CREDIT_DEFAULT
     )
-    show_column_score = pl.get_boolean_attrib(element, "show-column-score", SHOW_COLUMN_SCORE_DEFAULT)
-    constant_size = int(pl.get_string_attrib(element, "constant-size", CONSTANT_SIZE_DEFAULT))
+    show_column_score = pl.get_boolean_attrib(
+        element, "show-column-score", SHOW_COLUMN_SCORE_DEFAULT
+    )
+    constant_size = int(
+        pl.get_string_attrib(element, "constant-size", CONSTANT_SIZE_DEFAULT)
+    )
 
     score = data["partial_scores"].get(name, {"score": None}).get("score", None)
     if score is not None:
@@ -182,8 +191,8 @@ def render(element_html: str, data: pl.QuestionData) -> str:
         for x in bit_width_list:
             num_rows *= 2 ** int(x)
     else:
-        num_rows = 2 ** (
-            int(bit_width) * var_lenth
+        num_rows = (
+            2 ** (int(bit_width) * var_lenth)
         )  # Total rows in the truth table based on the number of variables and bit width
     columns = [{"name": c} for c in variables]
     rows = []
@@ -205,7 +214,10 @@ def render(element_html: str, data: pl.QuestionData) -> str:
                 rem //= mv
             counts.reverse()
             # Generate the binary strings for the current counts
-            row["input"] = [format(counts[i], f'0{int(bit_width_list[i])}b') for i in range(len(bit_width_list))]
+            row["input"] = [
+                format(counts[i], f"0{int(bit_width_list[i])}b")
+                for i in range(len(bit_width_list))
+            ]
         else:
             for j in range(var_lenth):
                 # Calculate the bit position for the j-th variable
@@ -217,9 +229,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
                 # Format the bits as a binary string with leading zeros to ensure k bits
                 bit_str = format(bits, f"0{bit_width}b")
                 row["input"].append(bit_str)
-        alphabet = pl.get_string_attrib(
-                        element, "alphabet", ALPHABET_DEFAULT
-                    )
+        alphabet = pl.get_string_attrib(element, "alphabet", ALPHABET_DEFAULT)
         row["input"] = [i.replace("1", alphabet[0]) for i in row["input"]]
         row["input"] = [i.replace("0", alphabet[1]) for i in row["input"]]
         for k in range(num_output):
@@ -227,7 +237,10 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             output = {
                 "cell_name": f"{name}_{i}_{k}",
                 "output_index": k,
-                "sub": data["submitted_answers"].get(f"{name}_{i}_{k}", prefill * len(data["correct_answers"][f"{name}_{i}_{k}"])),
+                "sub": data["submitted_answers"].get(
+                    f"{name}_{i}_{k}",
+                    prefill * len(data["correct_answers"][f"{name}_{i}_{k}"]),
+                ),
                 "correct": False,
                 "incorrect": False,
                 "input_error": data["format_errors"].get(f"{name}_{i}_{k}", None),
@@ -235,7 +248,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
                     f"{name}_{i}_{k}", CORRECT_ANSWER_DEFAULT
                 ),
                 "placeholder": placeholder_l[k],
-                "width": 16 + 8 * size
+                "width": 16 + 8 * size,
             }
             row["output"].append(output)
         rows.append(row)
@@ -264,15 +277,15 @@ def render(element_html: str, data: pl.QuestionData) -> str:
                         rows[index]["output"][k]["incorrect"] = True
                 except Exception as e:
                     raise ValueError("invalid score" + partial_score) from e
-                
-    try: 
+
+    try:
         for i in range(len(raw_column_scores)):
             score = int((raw_column_scores[i] / num_rows) * 100)
             col = {
-                "name" : output_name[i],
-                "percentage" : score,
-                "col_correct" : score == 100,
-                "col_incorrect" : score == 0
+                "name": output_name[i],
+                "percentage": score,
+                "col_correct": score == 100,
+                "col_incorrect": score == 0,
             }
             column_data.append(col)
     except Exception as e:
@@ -285,16 +298,16 @@ def render(element_html: str, data: pl.QuestionData) -> str:
         grading_text = ""
         if partial_credit:
             if show_cell_score:
-                grading_text = "You will receive partial credit per correct cell, and feedback which cells are filled out correctly"  
+                grading_text = "You will receive partial credit per correct cell, and feedback which cells are filled out correctly"
             elif show_column_score:
-                grading_text = "You will receive partial credit per correct cell, and feedback to which degree each column is filled out correctly" 
+                grading_text = "You will receive partial credit per correct cell, and feedback to which degree each column is filled out correctly"
             else:
-                grading_text = "You will receive partial credit per correct cell, but no feedback which cells are filled out correctly" 
+                grading_text = "You will receive partial credit per correct cell, but no feedback which cells are filled out correctly"
         else:
             if show_cell_score:
-                grading_text = "You will not receive partial credit unless the entire table is filled correctly, but feedback on which cells are correct."  
+                grading_text = "You will not receive partial credit unless the entire table is filled correctly, but feedback on which cells are correct."
             elif show_column_score:
-                grading_text = "You will not receive partial credit unless the entire table is filled correctly, but feedback to which degree each column is filled out correctly." 
+                grading_text = "You will not receive partial credit unless the entire table is filled correctly, but feedback to which degree each column is filled out correctly."
             else:
                 grading_text = "You will not receive partial credit or feedback unless the entire table is filled correctly."
 
@@ -302,12 +315,8 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             "format": True,
             "bitwidth": bit_width,
             "grading_text": grading_text,
-            "alphabet": ', '.join(
-                set(
-                    pl.get_string_attrib(
-                        element, "alphabet", ALPHABET_DEFAULT
-                    )
-                )
+            "alphabet": ", ".join(
+                set(pl.get_string_attrib(element, "alphabet", ALPHABET_DEFAULT))
             ),
         }
         info = chevron.render(template, info_params).strip()
@@ -324,7 +333,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             "is_material": is_material,
             "show_cell_score": show_cell_score,
             "show_column_score": show_column_score,
-            "column_data":column_data,
+            "column_data": column_data,
             "col_percentage_updated": col_percentage_updated,
             "score": score,
             "all_correct": ac,
@@ -344,7 +353,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             "is_material": is_material,
             "show_cell_score": show_cell_score,
             "show_column_score": show_column_score,
-            "column_data":column_data,
+            "column_data": column_data,
             "col_percentage_updated": col_percentage_updated,
             "score": score,
             "all_correct": ac,
@@ -383,11 +392,14 @@ def render(element_html: str, data: pl.QuestionData) -> str:
         }
         return chevron.render(template, html_params).strip()
 
+
 def parse(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, "answers-name")
     # Get the output name
-    output_name_string = pl.get_string_attrib(element, "output-name")  # [X or Y, X and Y]
+    output_name_string = pl.get_string_attrib(
+        element, "output-name"
+    )  # [X or Y, X and Y]
     output_name = get_headers_as_array(output_name_string)
     for o_name in output_name:
         o_name = o_name.lstrip("").rstrip("")
@@ -398,7 +410,7 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
     # If it's material, skip grading
     if is_material:
         return
-    
+
     # prepare the input variables e.g. ['X', 'Y']
     variable_string = pl.get_string_attrib(element, "input-name")
     variables = get_headers_as_array(variable_string)
@@ -411,13 +423,11 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
         for x in bit_width_l:
             num_rows *= 2 ** int(x)
     else:
-        num_rows = 2 ** (
-            int(bit_width) * len(variables)
+        num_rows = (
+            2 ** (int(bit_width) * len(variables))
         )  # Total rows in the truth table based on the number of variables and bit width
-        
-    alphabet = pl.get_string_attrib(
-        element, "alphabet", ALPHABET_DEFAULT
-    )
+
+    alphabet = pl.get_string_attrib(element, "alphabet", ALPHABET_DEFAULT)
 
     # Loop through each row to capture submitted answers
     for row_index in range(num_rows):
@@ -430,24 +440,25 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
                 data["submitted_answers"][answer_name] = None
                 continue
             if not a_sub:
-                data["format_errors"][
-                    answer_name
-                ] = "Invalid format. The submitted answer was left blank."
+                data["format_errors"][answer_name] = (
+                    "Invalid format. The submitted answer was left blank."
+                )
                 data["submitted_answers"][answer_name] = None
             elif len(a_sub) != expected_len:
-                data["format_errors"][
-                    answer_name
-                ] = f"Invalid format. The submitted answer must be {expected_len} bit(s) long."
+                data["format_errors"][answer_name] = (
+                    f"Invalid format. The submitted answer must be {expected_len} bit(s) long."
+                )
                 data["submitted_answers"][answer_name] = pl.to_json(a_sub)
             elif not set(a_sub.lower()).issubset(set(alphabet.lower())):
                 alphabet_print = ",".join(set(alphabet))
-                data["format_errors"][
-                    answer_name
-                ] = f"Invalid format. Input not in alphabet ({alphabet_print})."
+                data["format_errors"][answer_name] = (
+                    f"Invalid format. Input not in alphabet ({alphabet_print})."
+                )
                 data["submitted_answers"][answer_name] = pl.to_json(a_sub)
             else:
                 # Store the submitted answer for this row
                 data["submitted_answers"][answer_name] = pl.to_json(a_sub)
+
 
 def grade(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
@@ -470,8 +481,8 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
         for x in bit_width:
             num_rows *= 2 ** int(x)
     else:
-        num_rows = 2 ** (
-            int(bit_width) * len(variables)
+        num_rows = (
+            2 ** (int(bit_width) * len(variables))
         )  # Total rows in the truth table based on the number of variables and bit width
     # Get the output name
     output_name = pl.get_string_attrib(element, "output-name")  # [X or Y, X and Y]
@@ -527,4 +538,3 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
                 data["partial_scores"][answer_name]["weight"] = 0.0
 
     data["partial_scores"][name] = {"score": score_sum / (num_rows * num_output)}
-
