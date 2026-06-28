@@ -1,6 +1,6 @@
 {{#question}}
 <div class="t-tbl-block">
-    <table class="truth-table table thead-light table-hover table-condensed rounded-3 overflow-hidden">
+    <table class="truth-table table table-light table-hover table-sm rounded-3 overflow-hidden">
         <thead>
             <tr>
                 {{#columns}}
@@ -11,14 +11,14 @@
 				<th class="output-column">{{{name}}}
 					{{#col_percentage_updated}}
 					{{#col_correct}}
-					<span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
+					<span class="badge text-bg-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
 					{{/col_correct}}
 					{{^col_correct}}
 					{{#col_incorrect}}
-					<span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
+					<span class="badge text-bg-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
 					{{/col_incorrect}}
 					{{^col_incorrect}}
-					<span class="badge badge-warning badge-large">{{percentage}}%</span><br>
+					<span class="badge text-bg-warning badge-large">{{percentage}}%</span><br>
 					{{/col_incorrect}}
 					{{/col_correct}} 
 					{{/col_percentage_updated}}
@@ -60,27 +60,27 @@
 							{{#correct}}
 							{{! shows the green check box for correct answers}}
 							<span class="input-group-text">
-								<span class="badge badge-success"><i class="fa fa-check" aria-label="correct"></i></span>
+								<span class="badge text-bg-success"><i class="fa fa-check" aria-label="correct"></i></span>
 							</span>
 							{{/correct}}
 							{{#incorrect}}
 							{{! shows the red x for incorrect answers}}
 							<span class="input-group-text">
-								<span class="badge badge-danger"><i class="fa fa-times" aria-label="incorrect"></i></span>
+								<span class="badge text-bg-danger"><i class="fa fa-times" aria-label="incorrect"></i></span>
 							</span>
 							{{/incorrect}}
 							{{/show_cell_score}}
 							{{#input_error}}
 							<a role="button"
 								class="btn btn-light border d-flex align-items-center text-danger"
-								data-toggle="popover"
-								data-html="true"
+								data-bs-toggle="popover"
+								data-bs-html="true"
 								title="Format Error"
-								data-placement="auto"
-								data-trigger="focus"
+								data-bs-placement="auto"
+								data-bs-trigger="focus"
 								tabindex="0"
-								data-content="{{input_error}}">
-								<span class="mr-1">Invalid</span> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+								data-bs-content="{{input_error}}">
+								<span class="me-1">Invalid</span> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 							</a>
 							{{/input_error}}
 						</span>
@@ -96,25 +96,25 @@
 	<span>
 		{{! this shows the score beside the table}}
 		{{#all_correct}}
-		<span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
+		<span class="badge text-bg-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
 		{{/all_correct}}
 		{{^all_correct}}
 		{{#all_incorrect}}
-		<span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
+		<span class="badge text-bg-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
 		{{/all_incorrect}}
 		{{^all_incorrect}}
-			{{#score}}<span class="badge badge-warning badge-large">{{score}}%</span><br>{{/score}}
+			{{#score}}<span class="badge text-bg-warning badge-large">{{score}}%</span><br>{{/score}}
 		{{/all_incorrect}}
 		{{/all_correct}}
 		{{! this shows the info button beside the table}}
 		<a role="button"
 			class="btn info-button btn-info align-items-center"
-			data-toggle="popover"
-			data-html="true"
+			data-bs-toggle="popover"
+			data-bs-html="true"
 			title="Truth Table"
-			data-content="{{info}}"
-			data-placement="auto"
-			data-trigger="focus"
+			data-bs-content="{{info}}"
+			data-bs-placement="auto"
+			data-bs-trigger="focus"
 			tabindex="0">
 			<i class="fa fa-question-circle" aria-hidden="true"></i>
 		</a>
@@ -126,7 +126,7 @@
 
 {{#submission}}
 <div class="t-tbl-block">
-	<table class="truth-table table thead-light table-hover rounded-3 overflow-hidden">
+	<table class="truth-table table table-light table-hover rounded-3 overflow-hidden">
 		<thead>
 			<tr>
 				{{#columns}}
@@ -137,14 +137,14 @@
 				<th class="output-column">{{{name}}}
 					{{#col_percentage_updated}}
 					{{#col_correct}}
-					<span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
+					<span class="badge text-bg-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span><br>
 					{{/col_correct}}
 					{{^col_correct}}
 					{{#col_incorrect}}
-					<span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
+					<span class="badge text-bg-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span><br>
 					{{/col_incorrect}}
 					{{^col_incorrect}}
-					<span class="badge badge-warning badge-large">{{percentage}}%</span><br>
+					<span class="badge text-bg-warning badge-large">{{percentage}}%</span><br>
 					{{/col_incorrect}}
 					{{/col_correct}} 
 					{{/col_percentage_updated}}
@@ -177,26 +177,26 @@
 							{{#show_cell_score}}
 							{{#correct}}
 							<span class="input-group-text">
-								<span class="badge badge-success"><i class="fa fa-check" aria-label="correct"></i></span>
+								<span class="badge text-bg-success"><i class="fa fa-check" aria-label="correct"></i></span>
 							</span>
 							{{/correct}}
 							{{#incorrect}}
 							<span class="input-group-text">
-								<span class="badge badge-danger"><i class="fa fa-times" aria-label="incorrect"></i></span>
+								<span class="badge text-bg-danger"><i class="fa fa-times" aria-label="incorrect"></i></span>
 							</span>
 							{{/incorrect}}
 							{{/show_cell_score}}
 							{{#input_error}}
 							<a role="button"
 								class="btn btn-light border d-flex align-items-center text-danger"
-								data-toggle="popover"
-								data-html="true"
+								data-bs-toggle="popover"
+								data-bs-html="true"
 								title="Format Error"
-								data-placement="auto"
-								data-trigger="focus"
+								data-bs-placement="auto"
+								data-bs-trigger="focus"
 								tabindex="0"
-								data-content="{{input_error}}">
-								<span class="mr-1">Invalid</span> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+								data-bs-content="{{input_error}}">
+								<span class="me-1">Invalid</span> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 							</a>
 							{{/input_error}}
 						</span>
@@ -211,15 +211,15 @@
 	{{^is_material}}
 	<span>
 		{{#all_correct}}
-		<span class="badge badge-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span>
+		<span class="badge text-bg-success badge-large"><i class="fa fa-check-circle" aria-hidden="true"></i> 100%</span>
 		{{/all_correct}}
 		{{^all_correct}}
 		{{#all_incorrect}}
-		<span class="badge badge-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span>
+		<span class="badge text-bg-danger badge-large"><i class="fa fa-times-circle" aria-hidden="true"></i> 0%</span>
 		{{/all_incorrect}}
 		{{^all_incorrect}}
 		{{#score}}
-		<span class="badge badge-warning badge-large"><i class="fa fa-circle-o" aria-hidden="true"></i> {{score}}%</span>
+		<span class="badge text-bg-warning badge-large"><i class="fa fa-circle-o" aria-hidden="true"></i> {{score}}%</span>
 		{{/score}}
 		{{/all_incorrect}}
 		{{/all_correct}}
@@ -232,7 +232,7 @@
 {{#answer}}
 {{^is_material}}
 <div class="t-tbl-block">
-    <table class="truth-table table thead-light table-hover rounded-3 overflow-hidden">
+    <table class="truth-table table table-light table-hover rounded-3 overflow-hidden">
         <thead>
             <tr>
                 {{#columns}}
