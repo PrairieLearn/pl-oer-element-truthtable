@@ -13,7 +13,7 @@
   <div class="card-header">Part 1</div>
   <div class="card-body">
     <pl-question-panel>
-    <p>If the <code>is-material</code> attribute is set to <code>true</code>, tables are 
+    <p>If the <code>read-only</code> attribute is set to <code>true</code>, tables are 
     rendered statically and can be used as instructor-provided material for a question. 
     In this example, 2 input-columns are auto-generated and 3 output columns are manually 
     filled via the <code>correct-answer</code> attribute.</p>
@@ -23,7 +23,7 @@
       output-name="[X and Y, X or Y, X xor Y]"
       input-name="[X, Y]"
       correct-answer="[0, 0, 0, 1],[0, 1, 1, 1],[0, 1, 1, 0]"
-      is-material="true"
+      read-only="true"
     ></pl-truth-table>
   </div>
 </div>
@@ -32,7 +32,7 @@
   <div class="card-header">Part 2</div>
   <div class="card-body">
     <pl-question-panel>
-    <p>For this table, <code>is-material</code> is set to <code>false</code> and the <code>alphabet</code> is set to <code>TF</code>. All output cells are prefilled with <code>F</code> so that students only have to change the relevant cells to <code>T</code>.</p>
+    <p>For this table, <code>read-only</code> is set to <code>false</code> and the <code>alphabet</code> is set to <code>TF</code>. All output cells are prefilled with <code>F</code> so that students only have to change the relevant cells to <code>T</code>.</p>
     </pl-question-panel>
     <pl-truth-table
       answers-name="q2"

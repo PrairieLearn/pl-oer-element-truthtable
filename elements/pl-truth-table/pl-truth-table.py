@@ -49,6 +49,7 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
         "prefill",
         "placeholder",
         "partial-credit",
+        "read-only",
         "is-material",
         "show-cell-score",
         "show-column-score",
@@ -134,6 +135,14 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
                 data["correct_answers"][f"{name}_{row_index}_{k}"] = output[row_index]
 
 
+def _is_read_only(element) -> bool:
+    return pl.get_boolean_attrib(
+        element,
+        "read-only",
+        pl.get_boolean_attrib(element, "is-material", IS_MATERIAL_DEFAULT),
+    )
+
+
 def render(element_html: str, data: pl.QuestionData) -> str:
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, "answers-name")
@@ -147,10 +156,8 @@ def render(element_html: str, data: pl.QuestionData) -> str:
         o_name = o_name.lstrip("").rstrip("")
     num_output = len(output_name)
 
-    # Determine if the question is material (informational) or requires input
-    is_material = pl.get_boolean_attrib(
-        element, "is-material", False
-    )  # Default to False if not specified
+    # Determine if the question is read-only (informational) or requires input.
+    is_material = _is_read_only(element)
     placeholder = pl.get_string_attrib(element, "placeholder", PLACEHOLDER_DEFAULT)
     placeholder_l = []
     for k in range(num_output):
@@ -406,7 +413,7 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
     num_output = len(output_name)
 
     # Check if the question is marked as material (informational)
-    is_material = pl.get_boolean_attrib(element, "is-material", False)
+    is_material = _is_read_only(element)
     # If it's material, skip grading
     if is_material:
         return
@@ -464,7 +471,7 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
 
     # Check if the question is marked as material (informational)
-    is_material = pl.get_boolean_attrib(element, "is-material", False)
+    is_material = _is_read_only(element)
     # If it's material, skip grading
     if is_material:
         return
